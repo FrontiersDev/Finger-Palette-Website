@@ -9,45 +9,52 @@
 <body>
 
     <header>
-        <div class="header-content">
-            <div class="logo-section">
-                <img src="assets/logo.png" alt="Finger Palette Logo" class="site-logo">
-                <h1>Finger Palette</h1>
+        <div class="header-inner">
+            <div class="logo-area">
+                <img src="assets/logo.png" alt="Finger Palette Logo" class="header-logo">
+                <span class="logo-text">FINGER PALETTE</span>
             </div>
-            <nav class="top-nav">
-                <span class="nav-item">Program</span>
-                <span class="nav-item">Community</span>
-            </nav>
+            
+            <div class="nav-buttons">
+                <a href="#status-section" class="gt-btn yellow-btn">Apply</a>
+                <a href="#roster" class="gt-btn beige-btn">Roster</a>
+            </div>
         </div>
     </header>
 
-    <div class="main-wrapper">
+    <div class="main-container">
         
         <section id="status-section">
-            <h2 class="section-header">Join The Roster</h2>
-            <p id="status-text">Checking application status...</p>
-            <a id="app-btn" href="#" target="_blank" class="gt-button yellow-btn hidden">Apply Now</a>
+            <h1 class="page-title">JOIN THE ROSTER</h1>
+            
+            <p id="status-text" class="status-msg">Checking application status...</p>
+            
+            <a id="app-btn" href="#" target="_blank" class="gt-btn yellow-btn big-btn hidden">Apply Now</a>
         </section>
 
-        <main>
-            <div class="tier-section">
-                <h2 class="tier-title palette-title">Palettes <span class="tier-tag">Tier 1</span></h2>
-                <div class="member-grid" id="palette-list">
+        <div id="roster" class="roster-wrapper">
+            
+            <div class="tier-group">
+                <h2 class="tier-header palette-text">Palettes <span class="tier-badge">Tier 1</span></h2>
+                <div class="grid-container" id="palette-list">
                     </div>
             </div>
 
-            <div class="tier-section">
-                <h2 class="tier-title canvas-title">Canvases <span class="tier-tag">Tier 2</span></h2>
-                <div class="member-grid" id="canvas-list">
+            <div class="tier-group">
+                <h2 class="tier-header canvas-text">Canvases <span class="tier-badge">Tier 2</span></h2>
+                <div class="grid-container" id="canvas-list">
                     </div>
             </div>
-        </main>
+
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>FINGER PALETTE PROGRAM</p>
+                <p class="disclaimer">Not affiliated with Another Axiom.</p>
+            </div>
+        </footer>
     </div>
-
-    <footer>
-        <p>Finger Palette Program</p>
-        <p class="disclaimer">Not affiliated with Another Axiom.</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>

@@ -1,12 +1,12 @@
 // ==========================================
-// CONFIGURATION - EDIT THIS SECTION
+// SETTINGS
 // ==========================================
 
-// 1. APPLICATION SETTINGS
-const APPS_OPEN = true; // Set to true to open
-const APP_LINK = "https://your-form-url-here.com"; 
+// 1. APPLICATION STATUS
+const APPS_OPEN = false; // Set to true to show the button
+const APP_LINK = "https://your-google-form-link.com"; 
 
-// 2. MEMBER LIST
+// 2. MEMBERS LIST
 const MEMBERS = {
     palettes: [
         "UserOne", "CoolGorilla", "ProPlayer123"
@@ -17,7 +17,7 @@ const MEMBERS = {
 };
 
 // ==========================================
-// LOGIC
+// LOGIC (Do not edit below)
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -33,12 +33,12 @@ function setupStatus() {
     if (APPS_OPEN) {
         btn.href = APP_LINK;
         btn.classList.remove("hidden");
-        text.textContent = "Applications are currently OPEN!";
-        text.style.color = "#FFC800"; 
+        text.textContent = "APPLICATIONS ARE OPEN!";
+        text.style.color = "#FFC90E"; 
     } else {
         btn.classList.add("hidden");
-        text.textContent = "Applications are currently CLOSED. Check back next month.";
-        text.style.color = "#E6E1C5"; 
+        text.textContent = "Applications are currently closed. Check back on the 1st.";
+        text.style.color = "#CDCDB4"; 
     }
 }
 
