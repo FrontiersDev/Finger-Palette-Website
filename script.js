@@ -92,4 +92,20 @@ function renderMembers(elementId, memberList) {
         card.appendChild(nameTag);
         container.appendChild(card);
     });
+
+        // ==========================================
+    // PARALLAX EFFECT LOGIC
+    // ==========================================
+    document.addEventListener("scroll", () => {
+        const scrollPosition = window.scrollY;
+        
+        // speed: 0.0 = static (fixed), 1.0 = moves with text
+        // -0.2 means it moves slightly UP as you scroll DOWN (creating depth)
+        const speed = -0.2; 
+        
+        const offset = scrollPosition * speed;
+        
+        // Send this value to the CSS variable on the body
+        document.body.style.setProperty('--scroll-offset', `${offset}px`);
+    });
 }
