@@ -1,0 +1,142 @@
+/* Base Reset and Colors */
+:root {
+    --bg-color: #1a1a1a;
+    --card-bg: #2b2b2b;
+    --text-main: #ffffff;
+    --gt-orange: #F56E0F; /* Classic GT orange-ish tone */
+    --palette-color: #A020F0; /* Purple for Palette Tier */
+    --canvas-color: #20A0F0; /* Blue for Canvas Tier */
+    --font-stack: 'Fredoka', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-stack);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Header */
+header {
+    padding: 40px 20px;
+    background: linear-gradient(180deg, #222 0%, #1a1a1a 100%);
+}
+
+.site-logo {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* Application Button */
+#status-section {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--gt-orange);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 15px rgba(245, 110, 15, 0.4);
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    background-color: #ff8533;
+}
+
+.hidden {
+    display: none;
+}
+
+#status-text {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #888;
+}
+
+/* Members Grid */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.tier-section {
+    margin-bottom: 60px;
+}
+
+.tier-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.tier-tag {
+    font-size: 0.8rem;
+    background: #444;
+    padding: 5px 10px;
+    border-radius: 10px;
+    opacity: 0.8;
+}
+
+/* Specific Tier Colors */
+.palette-title { color: var(--palette-color); }
+.canvas-title { color: var(--canvas-color); }
+
+.member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Member Cards */
+.member-card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.member-card:hover {
+    border-color: #555;
+}
+
+.member-name {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Footer */
+footer {
+    padding: 40px;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #333;
+}
