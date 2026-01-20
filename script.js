@@ -78,9 +78,13 @@ function renderMembers(elementId, memberList) {
     // Sort names alphabetically (A-Z) automatically
     memberList.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-    memberList.forEach(name => {
+    memberList.forEach((name, index) => {
         const card = document.createElement("div");
         card.className = "member-card";
+        
+        // This line adds the stagger effect!
+        // Each card waits 50ms longer than the last one before popping in.
+        card.style.animationDelay = `${index * 50}ms`; 
         
         const nameTag = document.createElement("h3");
         nameTag.className = "member-name";

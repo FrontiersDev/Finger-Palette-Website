@@ -3,38 +3,50 @@
    ========================================= */
 @font-face {
     font-family: 'GTFont';
-    /* Update this if your font file has a different name/extension */
     src: url('assets/font.ttf') format('truetype'); 
 }
 
 :root {
-    /* Colors extracted from your screenshots */
-    --bg-teal: #3F5E60;       /* The swampy background color */
-    --header-bg: #101819;     /* Dark header strip */
-    --btn-yellow: #FFC90E;    /* The "Shop" button yellow */
-    --btn-beige: #CDCDB4;     /* The "Support" button beige */
-    --text-shadow: 3px 3px 0 #000;
+    /* Base Colors */
+    --bg-teal: #3F5E60;       
+    --header-bg: rgba(16, 24, 25, 0.95); /* Slightly transparent for blur */
     
-    --palette-color: #A020F0; 
-    --canvas-color: #20A0F0; 
+    /* Tier Colors */
+    --palette-glow: rgba(160, 32, 240, 0.6); 
+    --canvas-glow: rgba(32, 160, 240, 0.6); 
+    
+    /* Buttons */
+    --btn-yellow: #FFC90E;
+    --btn-beige: #CDCDB4;
+    
+    /* Effects */
+    --card-bg: #1A2626;
+    --text-shadow: 4px 4px 0 #000; /* Thicker shadow for pop */
 }
 
 body {
-    background-color: var(--bg-teal);
+    /* NEW: Radial gradient creates a "vignette" spotlight effect */
+    background: radial-gradient(circle at center, #4A6E70 0%, #2F4647 100%);
+    background-attachment: fixed; /* Keeps gradient locked while scrolling */
     margin: 0;
     padding: 0;
     font-family: 'GTFont', sans-serif;
     color: white;
-    text-transform: uppercase; /* The official site is almost all caps */
+    text-transform: uppercase;
+    min-height: 100vh;
 }
 
 /* =========================================
-   2. HEADER
+   2. HEADER (Now with Blur)
    ========================================= */
 header {
     background-color: var(--header-bg);
     padding: 15px 0;
-    border-bottom: 4px solid rgba(0,0,0,0.2);
+    border-bottom: 4px solid rgba(0,0,0,0.4);
+    position: sticky; /* Sticks to top */
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(5px); /* glassy effect */
 }
 
 .header-inner {
@@ -50,12 +62,14 @@ header {
     display: flex;
     align-items: center;
     gap: 15px;
+    transition: transform 0.3s;
 }
 
-.header-logo {
-    height: 50px;
-    width: auto;
+.logo-area:hover {
+    transform: scale(1.02); /* Subtle logo bump */
 }
+
+.header-logo { height: 50px; width: auto; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5)); }
 
 .logo-text {
     font-size: 1.5rem;
@@ -64,40 +78,33 @@ header {
 }
 
 /* =========================================
-   3. BUTTONS (The "Gorilla" Style)
+   3. BUTTONS (Bouncier)
    ========================================= */
 .gt-btn {
     text-decoration: none;
     color: black;
     font-weight: 900;
     padding: 10px 25px;
-    border-radius: 4px; /* Slight rounding, not pill-shaped */
+    border-radius: 8px; /* Softer corners */
     font-size: 1rem;
     display: inline-block;
-    transition: transform 0.1s;
     border: none;
     cursor: pointer;
+    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+    position: relative;
+    top: 0;
 }
 
-/* The distinct yellow button with hard shadow */
-.yellow-btn {
-    background-color: var(--btn-yellow);
-    box-shadow: 0 4px 0 #B88A00; /* Hard darker yellow shadow */
-}
-
-/* The beige button */
-.beige-btn {
-    background-color: var(--btn-beige);
-    box-shadow: 0 4px 0 #8F8F7E;
-}
+.yellow-btn { background-color: var(--btn-yellow); box-shadow: 0 5px 0 #B88A00; }
+.beige-btn { background-color: var(--btn-beige); box-shadow: 0 5px 0 #8F8F7E; }
 
 .gt-btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px); /* Lifts up */
 }
 
 .gt-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 0 0; /* Shadow disappears on click */
+    transform: translateY(2px); /* Presses down */
+    box-shadow: 0 0 0 !important; /* Shadow squishes */
 }
 
 /* =========================================
@@ -106,105 +113,131 @@ header {
 .main-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 60px 20px;
     text-align: center;
 }
 
 .page-title {
-    font-size: 4rem;
+    font-size: 4.5rem;
     margin: 20px 0;
     text-shadow: var(--text-shadow);
     letter-spacing: 3px;
-    transform: rotate(-1deg); /* Slight tilt like "PLAY NOW" */
+    transform: rotate(-2deg);
+    animation: floatTitle 3s ease-in-out infinite; /* Floating animation */
+}
+
+/* Subtle float animation for title */
+@keyframes floatTitle {
+    0% { transform: rotate(-2deg) translateY(0px); }
+    50% { transform: rotate(-2deg) translateY(-10px); }
+    100% { transform: rotate(-2deg) translateY(0px); }
 }
 
 /* Status Section */
-#status-section {
-    margin-bottom: 60px;
-}
+#status-section { margin-bottom: 80px; }
 
 .status-msg {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 0 #000;
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0 #000;
     color: #EEE;
+    background: rgba(0,0,0,0.3); /* Dark pill background behind text */
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 50px;
 }
 
-.big-btn {
-    font-size: 1.5rem;
-    padding: 15px 40px;
-}
-
+.big-btn { font-size: 1.8rem; padding: 20px 50px; border-radius: 12px; }
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID (Social Icon Style)
+   5. ROSTER GRID (The Fun Part)
    ========================================= */
-.tier-group {
-    margin-bottom: 50px;
-}
+.tier-group { margin-bottom: 80px; }
 
 .tier-header {
-    font-size: 2.5rem;
+    font-size: 3rem;
     text-shadow: var(--text-shadow);
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
-.palette-text { color: var(--palette-color); }
-.canvas-text { color: var(--canvas-color); }
+.palette-text { color: #D18EFF; }
+.canvas-text { color: #5CC9FF; }
 
 .tier-badge {
     font-size: 1rem;
-    background: black;
-    padding: 5px 10px;
-    border-radius: 5px;
-    vertical-align: middle;
-    color: white;
-    text-shadow: none;
+    background: #000;
+    padding: 5px 12px;
+    border-radius: 8px;
+    transform: rotate(3deg); /* Jaunty badge angle */
+    box-shadow: 3px 3px 0 rgba(255,255,255,0.2);
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 25px;
 }
 
-/* The Member Card - Styled like the social media tiles */
+/* CARD STYLING */
 .member-card {
-    background-color: #1A2626; /* Dark slate */
+    background-color: var(--card-bg);
     border: 3px solid #2A3A3A;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-    transform: rotate(1deg); /* Slight random tilt */
+    border-radius: 12px;
+    padding: 20px 10px;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    
+    /* Animation setup */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: popIn 0.5s forwards; /* Trigger animation */
 }
 
-/* Alternating tilts for fun */
-.member-card:nth-child(even) { transform: rotate(-1deg); }
-
+/* Hover Effects */
 .member-card:hover {
-    transform: scale(1.05) rotate(0deg);
-    border-color: var(--btn-yellow); /* Highlight on hover */
+    transform: scale(1.1) rotate(2deg) !important; /* Pop out and twist */
+    border-color: #FFF;
+    z-index: 10; /* Bring to front */
+}
+
+/* Specific Glows based on Tier ID (Handled in JS logic generally, but we can target parents) */
+#palette-list .member-card:hover {
+    box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000;
+    border-color: #D18EFF;
+}
+
+#canvas-list .member-card:hover {
+    box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000;
+    border-color: #5CC9FF;
 }
 
 .member-name {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     text-shadow: 2px 2px 0 #000;
+    word-wrap: break-word; /* Prevents long names breaking layout */
 }
 
 /* =========================================
    6. FOOTER
    ========================================= */
 footer {
-    margin-top: 80px;
-    border-top: 2px solid rgba(255,255,255,0.1);
-    padding-top: 20px;
-    color: #888;
+    border-top: 4px solid rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2);
+    padding: 40px;
+    color: #AAA;
 }
 
-.disclaimer {
-    font-size: 0.8rem;
-    text-transform: none;
+/* =========================================
+   7. ANIMATIONS
+   ========================================= */
+@keyframes popIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
