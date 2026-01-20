@@ -241,3 +241,44 @@ footer {
     0% { opacity: 0; transform: translateY(20px) scale(0.9); }
     100% { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+/* Website Background Setup */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Ensures it stays behind content */
+  
+  background-image: url('background.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* 1. Base Opacity: Sets the image to 30% visibility (0.3).
+     2. Gradient Mask: Creates a fade on the TOP edge. 
+        It starts transparent (0% visible) at the very top and 
+        fades into the base opacity.
+  */
+  opacity: 0.3; 
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+}
+
+/* Discord Button Styling */
+.discord-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #5865F2; /* Discord Blurple */
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.discord-btn:hover {
+  background-color: #4752C4;
+}
