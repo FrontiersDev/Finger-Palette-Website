@@ -3,10 +3,13 @@
 // ==========================================
 
 // 1. APPLICATION STATUS
-const APPS_OPEN = false; // Set to true to show the button
-const APP_LINK = "https://your-google-form-link.com"; 
+const APPS_OPEN = true; // Set to true to open applications
 
-// 2. MEMBERS LIST
+// 2. LINKS
+// Paste your Discord Invite Link here
+const DISCORD_INVITE = "https://discord.gg/your-invite-code"; 
+
+// 3. MEMBERS LIST
 const MEMBERS = {
     palettes: [
         "UserOne", "CoolGorilla", "ProPlayer123"
@@ -31,12 +34,17 @@ function setupStatus() {
     const text = document.getElementById("status-text");
 
     if (APPS_OPEN) {
-        btn.href = APP_LINK;
+        // When open, link to Discord and change text
+        btn.href = DISCORD_INVITE;
         btn.classList.remove("hidden");
+        btn.textContent = "JOIN DISCORD TO APPLY"; // Updated Text
+        
         text.textContent = "APPLICATIONS ARE OPEN!";
         text.style.color = "#FFC90E"; 
     } else {
+        // When closed, hide button
         btn.classList.add("hidden");
+        
         text.textContent = "Applications are currently closed. Check back on the 1st.";
         text.style.color = "#CDCDB4"; 
     }
