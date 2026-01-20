@@ -3,34 +3,21 @@
 // ==========================================
 
 // 1. APPLICATION SETTINGS
-// Change 'false' to 'true' to open applications
-const APPS_OPEN = true; 
-
-// Paste your Google Form or website link here
-const APP_LINK = "https://your-application-form-url.com"; 
+const APPS_OPEN = true; // Set to true to open
+const APP_LINK = "https://your-form-url-here.com"; 
 
 // 2. MEMBER LIST
-// Add member names inside the quotes, separated by commas.
 const MEMBERS = {
-    // TIER 1: PALETTES
     palettes: [
-        "UserOne",
-        "CoolGorilla",
-        "ProPlayer123",
-        // Add more here...
+        "UserOne", "CoolGorilla", "ProPlayer123"
     ],
-
-    // TIER 2: CANVASES
     canvases: [
-        "NewGuy",
-        "ArtistMonke",
-        "AnotherUser",
-        // Add more here...
+        "NewGuy", "ArtistMonke", "AnotherUser"
     ]
 };
 
 // ==========================================
-// DO NOT EDIT BELOW THIS LINE (LOGIC ONLY)
+// LOGIC
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,19 +33,17 @@ function setupStatus() {
     if (APPS_OPEN) {
         btn.href = APP_LINK;
         btn.classList.remove("hidden");
-        text.textContent = "Applications are OPEN until the 7th!";
-        text.style.color = "#4CAF50"; // Green text for open
+        text.textContent = "Applications are currently OPEN!";
+        text.style.color = "#FFC800"; 
     } else {
         btn.classList.add("hidden");
-        text.textContent = "Applications are currently CLOSED. Check back on the 1st of next month.";
-        text.style.color = "#FF5252"; // Red text for closed
+        text.textContent = "Applications are currently CLOSED. Check back next month.";
+        text.style.color = "#E6E1C5"; 
     }
 }
 
 function renderMembers(elementId, memberList) {
     const container = document.getElementById(elementId);
-    
-    // Sort names alphabetically (A-Z) automatically
     memberList.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
     memberList.forEach(name => {

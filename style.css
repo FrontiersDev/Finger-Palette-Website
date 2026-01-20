@@ -1,142 +1,190 @@
-/* Base Reset and Colors */
+/* =========================================
+   1. CUSTOM FONT SETUP
+   ========================================= */
+@font-face {
+    font-family: 'GTFont';
+    /* Make sure your font file in the assets folder matches this name exactly */
+    /* If your font is .otf, change format('truetype') to format('opentype') */
+    src: url('assets/font.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* =========================================
+   2. GLOBAL STYLES (Gorilla Tag Theme)
+   ========================================= */
 :root {
-    --bg-color: #1a1a1a;
-    --card-bg: #2b2b2b;
-    --text-main: #ffffff;
-    --gt-orange: #F56E0F; /* Classic GT orange-ish tone */
+    /* Colors extracted from your screenshots */
+    --bg-teal: #364E4F;      /* The main background color */
+    --nav-bg: #1A1A1A;       /* The dark header bar */
+    --btn-yellow: #FFC800;   /* The 'Shop' button yellow */
+    --btn-beige: #E6E1C5;    /* The 'Support' button beige */
+    --text-light: #FFFFFF;
+    
     --palette-color: #A020F0; /* Purple for Palette Tier */
-    --canvas-color: #20A0F0; /* Blue for Canvas Tier */
-    --font-stack: 'Fredoka', sans-serif;
+    --canvas-color: #20A0F0;  /* Blue for Canvas Tier */
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    font-family: var(--font-stack);
+    background-color: var(--bg-teal);
+    color: var(--text-light);
+    font-family: 'GTFont', sans-serif; /* Uses your custom font */
     margin: 0;
     padding: 0;
     text-align: center;
+    /* Optional: If you have the footprint background pattern, add it here:
+       background-image: url('assets/bg-pattern.png'); 
+    */
 }
 
-/* Header */
+/* =========================================
+   3. HEADER
+   ========================================= */
 header {
-    padding: 40px 20px;
-    background: linear-gradient(180deg, #222 0%, #1a1a1a 100%);
+    background-color: var(--nav-bg);
+    padding: 15px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.header-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .site-logo {
-    max-width: 150px;
-    height: auto;
-    margin-bottom: 10px;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    height: 60px;
+    width: auto;
 }
 
 h1 {
-    font-size: 3rem;
-    margin: 10px 0;
-    letter-spacing: 1px;
+    font-size: 2rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.subtitle {
-    font-size: 1.2rem;
-    opacity: 0.8;
+.top-nav .nav-item {
+    margin-left: 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #AAA;
 }
+.top-nav .nav-item:hover { color: #FFF; }
 
-/* Application Button */
-#status-section {
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.cta-button {
+/* =========================================
+   4. BUTTONS & STATUS (Matching Screenshot)
+   ========================================= */
+.gt-button {
     display: inline-block;
-    background-color: var(--gt-orange);
-    color: white;
-    padding: 15px 40px;
-    border-radius: 50px;
+    padding: 12px 30px;
+    border-radius: 5px; /* Slight rounding like the screenshot buttons */
     text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 600;
-    transition: transform 0.2s, background-color 0.2s;
-    box-shadow: 0 4px 15px rgba(245, 110, 15, 0.4);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000; /* Black text on buttons */
+    transition: transform 0.2s;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
 }
 
-.cta-button:hover {
-    transform: scale(1.05);
-    background-color: #ff8533;
+.gt-button:hover {
+    transform: scale(1.05) rotate(-2deg); /* A little "Gorilla" jaunty tilt */
 }
 
-.hidden {
-    display: none;
+.yellow-btn {
+    background-color: var(--btn-yellow);
+    box-shadow: 0 4px 0px #cda200; /* Hard shadow for 3D effect */
 }
 
-#status-text {
-    margin-top: 15px;
-    font-size: 1rem;
-    color: #888;
+.hidden { display: none; }
+
+#status-section {
+    padding: 60px 20px;
 }
 
-/* Members Grid */
-main {
+.section-header {
+    font-size: 3rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 0px #000;
+}
+
+/* =========================================
+   5. MEMBER LISTS
+   ========================================= */
+.main-wrapper {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 20px;
+    padding-bottom: 50px;
 }
 
 .tier-section {
-    margin-bottom: 60px;
+    background-color: rgba(0, 0, 0, 0.2); /* Slight darkening for sections */
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
 }
 
 .tier-title {
     font-size: 2rem;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+    margin-top: 0;
+    text-shadow: 2px 2px 0px #000;
 }
 
-.tier-tag {
-    font-size: 0.8rem;
-    background: #444;
-    padding: 5px 10px;
-    border-radius: 10px;
-    opacity: 0.8;
-}
-
-/* Specific Tier Colors */
 .palette-title { color: var(--palette-color); }
 .canvas-title { color: var(--canvas-color); }
 
-.member-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+.tier-tag {
+    font-size: 0.8rem;
+    background: #000;
+    color: #FFF;
+    padding: 5px 10px;
+    border-radius: 5px;
+    vertical-align: middle;
 }
 
-/* Member Cards */
+.member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
 .member-card {
-    background-color: var(--card-bg);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    border: 2px solid transparent;
-    transition: border-color 0.3s;
+    background-color: #233333; /* Darker teal for cards */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 0px #111; /* Hard shadow */
+    transition: transform 0.2s;
 }
 
 .member-card:hover {
-    border-color: #555;
+    transform: translateY(-5px);
+    background-color: #2A3E3E;
 }
 
 .member-name {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin: 0;
+    color: #FFF;
 }
 
-/* Footer */
+/* =========================================
+   6. FOOTER
+   ========================================= */
 footer {
+    background-color: var(--nav-bg);
     padding: 40px;
-    font-size: 0.9rem;
-    color: #666;
-    border-top: 1px solid #333;
+    color: #888;
 }
