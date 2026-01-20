@@ -17,14 +17,14 @@
     --text-shadow: 4px 4px 0 #000;
 }
 
-/* DEBUG STEP 1: Turn off the bottom layer color so it can't hide anything */
+/* LAYER 1 (Bottom): The Dark Radial Gradient */
 html {
-    /* background: radial-gradient(circle at center, #4A6E70 0%, #2F4647 100%); */
-    background: transparent; 
+    background: radial-gradient(circle at center, #4A6E70 0%, #2F4647 100%);
+    background-attachment: fixed;
     height: 100%;
 }
 
-/* DEBUG STEP 2: Force the image to be 100% visible */
+/* LAYER 2 (Middle): The Background Image */
 body::before {
     content: "";
     position: fixed;
@@ -32,25 +32,26 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; 
+    z-index: -1; /* Puts it behind the text */
     
-    /* !!! CHECK THIS !!! */
-    background-image: url('background.avif');
-    
-    /* If the image is missing, you will see RED. */
-    background-color: red; 
+    /* --- FIX: ADDED 'assets/' TO THE PATH --- */
+    background-image: url('assets/background.avif');
     
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
-    /* REMOVED: Opacity and Masks for testing */
-    opacity: 1 !important; 
+    /* Transparency & Gradient Logic */
+    opacity: 0.3; /* 30% Visibility */
+    
+    /* The Fade: Transparent at top (0%) -> Visible at 20% down */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
     
     pointer-events: none;
 }
 
-/* DEBUG STEP 3: Ensure body is transparent */
+/* LAYER 3 (Top): The Content Container */
 body {
     margin: 0;
     padding: 0;
@@ -58,7 +59,7 @@ body {
     color: white;
     text-transform: uppercase;
     min-height: 100vh;
-    background-color: transparent !important; 
+    background-color: transparent !important; /* CRITICAL: Allows us to see the layers below */
     position: relative;
 }
 
