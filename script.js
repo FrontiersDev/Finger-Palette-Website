@@ -1,21 +1,43 @@
 // ==========================================
-// SETTINGS
+// CONFIGURATION - EDIT THIS SECTION
 // ==========================================
 
 // 1. APPLICATION STATUS
-const APPS_OPEN = true; // Set to true to open applications
+const APPS_OPEN = false; // Set to true to open applications
 
 // 2. LINKS
-// Paste your Discord Invite Link here
+// Paste your Discord Invite Link here!
 const DISCORD_INVITE = "https://discord.gg/your-invite-code"; 
 
-// 3. MEMBERS LIST
+// 3. MEMBER LIST
+// I have transcribed these from your screenshots.
 const MEMBERS = {
+    // TIER 1: PALETTES (Cyan Role + Promoted Staff)
     palettes: [
-        "UserOne", "CoolGorilla", "ProPlayer123"
+        "Tfird", "SPNCE", "SharkyPro", "Voix", "mark", "Rub", 
+        "LUNARGT", "LumberVR", "Nico", "PilloVR", "Ribbonz", 
+        "Aiden", "optic", "Pigless", "GmanOnVr", "AliTheGuyVR", 
+        "cookiee!", "Paulamine_vr", "FruitGT", "Drift", 
+        "fancyandiamond", "isaac", "flinx", "VerdexGT4Canvas", 
+        "goodguyvr", "ab.", "Headless", "Beheld", "Maybe_gtag", 
+        "clox", "N1ZO", "AllMightyMonk", "Saffygotpalette!", 
+        "Pezi", "OJ", "Llama", "palette520/ kel", "Blaze vr", 
+        "ILikeGT", "Jolly JdpVr", "Cashh", "Espio", "kylemilly!", 
+        "Saul", "sol", "milkywayy", "Zeep", "Bub", "Robvr", 
+        "nine", "Pastry", "MoistyVR", "Zydex", "fraggz", 
+        "Human Being", "Astromax", "new redguy with a hat", 
+        "clipo (eclipse)", "fiction", "Freddyboy", "WERC", 
+        "tornado", "Twizzler", "just._.stevenn", "Fenz", 
+        "EddieGT", "incrim", "Ridis", "Evmation", "Azriel", 
+        "! Crew", "Jacknoham", "Fran", "chrisy isa pro", 
+        "cosmyyeahhhhh"
     ],
+
+    // TIER 2: CANVASES (Lime Role)
     canvases: [
-        "NewGuy", "ArtistMonke", "AnotherUser"
+        "kellen", "MIKEMAS", "Slush", "Kaidens Gaming", 
+        "erikk", "Morbo", "OJ!☆l", "Xeebros", "E", 
+        "Boogle", "blitz_gt", "GKG"
     ]
 };
 
@@ -37,7 +59,7 @@ function setupStatus() {
         // When open, link to Discord and change text
         btn.href = DISCORD_INVITE;
         btn.classList.remove("hidden");
-        btn.textContent = "JOIN DISCORD TO APPLY"; // Updated Text
+        btn.textContent = "JOIN DISCORD TO APPLY"; 
         
         text.textContent = "APPLICATIONS ARE OPEN!";
         text.style.color = "#FFC90E"; 
@@ -45,13 +67,15 @@ function setupStatus() {
         // When closed, hide button
         btn.classList.add("hidden");
         
-        text.textContent = "Applications are currently closed. Check back on the 1st.";
+        text.textContent = "Applications are currently CLOSED. Check back on the 1st.";
         text.style.color = "#CDCDB4"; 
     }
 }
 
 function renderMembers(elementId, memberList) {
     const container = document.getElementById(elementId);
+    
+    // Sort names alphabetically (A-Z) automatically
     memberList.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
     memberList.forEach(name => {
