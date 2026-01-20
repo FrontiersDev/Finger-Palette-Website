@@ -4,7 +4,7 @@
 
 // 1. APPLICATION SETTINGS
 // Change 'false' to 'true' to open applications
-const APPS_OPEN = false; 
+const APPS_OPEN = true; 
 
 // Paste your Google Form or website link here
 const APP_LINK = "https://your-application-form-url.com"; 
