@@ -32,8 +32,8 @@ body::before {
     left: 0;
     width: 100%;
     
-    /* PARALLAX FIX: Make it taller than the screen so it can move */
-    height: 120vh; 
+    /* UPDATED: Increased height for Parallax Room */
+    height: 140vh; 
     
     background-image: url('assets/background.avif');
     background-size: cover;
@@ -47,10 +47,9 @@ body::before {
     
     pointer-events: none;
 
-    /* PARALLAX MOVEMENT LOGIC */
-    /* This variable (--scroll-offset) will be updated by JS */
+    /* Parallax Variable */
     transform: translateY(var(--scroll-offset, 0px));
-    will-change: transform; /* optimizing performance */
+    will-change: transform;
 }
 
 /* LAYER 3 (Top): The Content Container */
@@ -61,12 +60,13 @@ body {
     color: white;
     text-transform: uppercase;
     min-height: 100vh;
-    background-color: transparent !important; /* CRITICAL: Allows us to see the layers below */
+    background-color: transparent !important; 
     position: relative;
+    overflow-x: hidden; /* Prevents side-scroll from slide-in animations */
 }
 
 /* =========================================
-   2. HEADER
+   2. HEADER (Animated Entry)
    ========================================= */
 header {
     background-color: var(--header-bg);
@@ -76,6 +76,9 @@ header {
     top: 0;
     z-index: 100;
     backdrop-filter: blur(5px);
+    
+    /* ANIMATION: Drop down from top */
+    animation: slideDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .header-inner {
@@ -95,7 +98,7 @@ header {
 }
 
 .logo-area:hover {
-    transform: scale(1.02);
+    transform: scale(1.05) rotate(-2deg); /* Added slight tilt */
 }
 
 .header-logo { height: 50px; width: auto; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5)); }
@@ -107,7 +110,7 @@ header {
 }
 
 /* =========================================
-   3. BUTTONS
+   3. BUTTONS (Wobbles & Pulses)
    ========================================= */
 .gt-btn {
     text-decoration: none;
@@ -121,7 +124,6 @@ header {
     cursor: pointer;
     transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
-    top: 0;
 }
 
 .yellow-btn { background-color: var(--btn-yellow); box-shadow: 0 5px 0 #B88A00; }
@@ -134,6 +136,12 @@ header {
     box-shadow: 0 5px 0 #3c45a5; 
 }
 
+/* ANIMATION: Wobble on hover */
+.discord-btn:hover {
+    animation: wobble 0.5s ease-in-out;
+    background-color: #4752C4;
+}
+
 .gt-btn:hover {
     transform: translateY(-3px);
 }
@@ -141,6 +149,12 @@ header {
 .gt-btn:active {
     transform: translateY(2px);
     box-shadow: 0 0 0 !important;
+}
+
+/* ANIMATION: Apply Button Pulse */
+/* If the button is NOT hidden, it will pulse to grab attention */
+.yellow-btn:not(.hidden) {
+    animation: pulse 2s infinite;
 }
 
 /* =========================================
@@ -159,16 +173,15 @@ header {
     text-shadow: var(--text-shadow);
     letter-spacing: 3px;
     transform: rotate(-2deg);
+    /* Existing float animation */
     animation: floatTitle 3s ease-in-out infinite;
 }
 
-@keyframes floatTitle {
-    0% { transform: rotate(-2deg) translateY(0px); }
-    50% { transform: rotate(-2deg) translateY(-10px); }
-    100% { transform: rotate(-2deg) translateY(0px); }
+#status-section { 
+    margin-bottom: 80px;
+    /* ANIMATION: Fade in up */
+    animation: fadeInUp 1s ease-out 0.3s backwards; 
 }
-
-#status-section { margin-bottom: 80px; }
 
 .status-msg {
     font-size: 1.3rem;
@@ -179,13 +192,19 @@ header {
     display: inline-block;
     padding: 10px 20px;
     border-radius: 50px;
+    transition: transform 0.3s;
+}
+
+.status-msg:hover {
+    transform: scale(1.05);
+    background: rgba(0,0,0,0.5);
 }
 
 .big-btn { font-size: 1.8rem; padding: 20px 50px; border-radius: 12px; }
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID
+   5. ROSTER GRID (Holographic Cards)
    ========================================= */
 .tier-group { margin-bottom: 80px; }
 
@@ -199,8 +218,18 @@ header {
     gap: 15px;
 }
 
-.palette-text { color: #D18EFF; }
-.canvas-text { color: #5CC9FF; }
+/* ANIMATION: Slide in headers from sides */
+.palette-text { 
+    color: #D18EFF; 
+    /* Slides from Left */
+    animation: slideInLeft 1s ease-out 0.5s backwards;
+}
+
+.canvas-text { 
+    color: #5CC9FF; 
+    /* Slides from Right */
+    animation: slideInRight 1s ease-out 0.5s backwards;
+}
 
 .tier-badge {
     font-size: 1rem;
@@ -209,6 +238,8 @@ header {
     border-radius: 8px;
     transform: rotate(3deg);
     box-shadow: 3px 3px 0 rgba(255,255,255,0.2);
+    /* Pop in animation */
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s backwards;
 }
 
 .grid-container {
@@ -217,6 +248,7 @@ header {
     gap: 25px;
 }
 
+/* CARD STYLING & SHINE */
 .member-card {
     background-color: var(--card-bg);
     border: 3px solid #2A3A3A;
@@ -225,15 +257,37 @@ header {
     box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    overflow: hidden; /* Needed for the shine effect */
+    
     opacity: 0;
     transform: translateY(20px);
-    animation: popIn 0.5s forwards;
+    /* JS handles the delay, this handles the movement */
+    animation: popIn 0.5s forwards; 
 }
 
+/* The Shine Effect Layer */
+.member-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+}
+
+/* Hover Effects */
 .member-card:hover {
     transform: scale(1.1) rotate(2deg) !important;
     border-color: #FFF;
     z-index: 10;
+}
+
+.member-card:hover::after {
+    left: 150%; /* Moves the shine across the card */
+    transition: 0.7s;
 }
 
 #palette-list .member-card:hover {
@@ -254,16 +308,62 @@ header {
 }
 
 /* =========================================
-   6. FOOTER & ANIMATIONS
+   6. KEYFRAMES (The Animation Logic)
    ========================================= */
-footer {
-    border-top: 4px solid rgba(0,0,0,0.2);
-    background: rgba(0,0,0,0.2);
-    padding: 40px;
-    color: #AAA;
+
+@keyframes slideDown {
+    0% { transform: translateY(-100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    0% { transform: translateX(-50px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    0% { transform: translateX(50px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes popIn {
     0% { opacity: 0; transform: translateY(20px) scale(0.9); }
     100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes floatTitle {
+    0% { transform: rotate(-2deg) translateY(0px); }
+    50% { transform: rotate(-2deg) translateY(-10px); }
+    100% { transform: rotate(-2deg) translateY(0px); }
+}
+
+@keyframes wobble {
+    0% { transform: translateX(0%); }
+    15% { transform: translateX(-5px) rotate(-5deg); }
+    30% { transform: translateX(4px) rotate(3deg); }
+    45% { transform: translateX(-4px) rotate(-3deg); }
+    60% { transform: translateX(2px) rotate(2deg); }
+    75% { transform: translateX(-1px) rotate(-1deg); }
+    100% { transform: translateX(0%); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 201, 14, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0); }
+}
+
+/* Footer */
+footer {
+    border-top: 4px solid rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2);
+    padding: 40px;
+    color: #AAA;
+    /* Fade footer in last */
+    animation: fadeInUp 1s ease-out 1.5s backwards;
 }
