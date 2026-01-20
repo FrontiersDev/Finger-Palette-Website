@@ -7,10 +7,9 @@ const APPS_OPEN = false; // Set to true to open applications
 
 // 2. LINKS
 // Paste your Discord Invite Link here!
-const DISCORD_INVITE = "https://discord.gg/your-invite-code"; 
+const DISCORD_INVITE = "https://discord.gg/fingerpalette"; 
 
 // 3. MEMBER LIST
-// I have transcribed these from your screenshots.
 const MEMBERS = {
     // TIER 1: PALETTES (Cyan Role + Promoted Staff)
     palettes: [
