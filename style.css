@@ -17,14 +17,14 @@
     --text-shadow: 4px 4px 0 #000;
 }
 
-/* LAYER 1 (Bottom): The Dark Radial Gradient */
+/* DEBUG STEP 1: Turn off the bottom layer color so it can't hide anything */
 html {
-    background: radial-gradient(circle at center, #4A6E70 0%, #2F4647 100%);
-    background-attachment: fixed;
+    /* background: radial-gradient(circle at center, #4A6E70 0%, #2F4647 100%); */
+    background: transparent; 
     height: 100%;
 }
 
-/* LAYER 2 (Middle): The Background Image */
+/* DEBUG STEP 2: Force the image to be 100% visible */
 body::before {
     content: "";
     position: fixed;
@@ -32,22 +32,25 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Behind text */
+    z-index: -1; 
     
+    /* !!! CHECK THIS !!! */
     background-image: url('background.avif');
+    
+    /* If the image is missing, you will see RED. */
+    background-color: red; 
+    
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
-    /* Transparency & Gradient Fade */
-    opacity: 0.3; 
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+    /* REMOVED: Opacity and Masks for testing */
+    opacity: 1 !important; 
     
     pointer-events: none;
 }
 
-/* LAYER 3 (Top): The Content Container */
+/* DEBUG STEP 3: Ensure body is transparent */
 body {
     margin: 0;
     padding: 0;
@@ -55,7 +58,7 @@ body {
     color: white;
     text-transform: uppercase;
     min-height: 100vh;
-    background-color: transparent !important; /* CRITICAL: Must be transparent to see layers below */
+    background-color: transparent !important; 
     position: relative;
 }
 
@@ -121,7 +124,7 @@ header {
 .yellow-btn { background-color: var(--btn-yellow); box-shadow: 0 5px 0 #B88A00; }
 .beige-btn { background-color: var(--btn-beige); box-shadow: 0 5px 0 #8F8F7E; }
 
-/* New Discord Button Style */
+/* Discord Button Style */
 .discord-btn { 
     background-color: #5865F2; 
     color: white; 
