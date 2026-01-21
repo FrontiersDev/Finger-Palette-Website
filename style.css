@@ -162,7 +162,7 @@ header {
     margin: 20px 0;
     text-shadow: var(--text-shadow);
     letter-spacing: 3px;
-    transform: rotate(-2deg);
+    transform: rotate(-3deg);
     animation: floatTitle 3s ease-in-out infinite;
 }
 
@@ -194,7 +194,7 @@ header {
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID (CRITICAL FIX AREA)
+   5. ROSTER GRID (CRITICAL FIXES APPLIED)
    ========================================= */
 .tier-group { margin-bottom: 80px; }
 
@@ -235,7 +235,7 @@ header {
     animation: skewEnter 1s ease-out backwards;
 }
 
-/* --- CARD LAYERING FIX --- */
+/* --- CARD STYLING --- */
 .member-card {
     background-color: var(--card-bg);
     border: 3px solid #37474f;
@@ -244,17 +244,22 @@ header {
     box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
     transition: transform 0.2s;
     
-    /* 1. Force a clean stacking context */
-    isolation: isolate;
+    /* 1. LAYERING FIXES */
     position: relative;
     overflow: hidden;
+    isolation: isolate; /* Creates a new stacking context */
+    
+    /* 2. RENDERING FIXES (Prevents flickering/disappearing) */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform-style: flat;
     
     opacity: 0;
     transform: translateY(20px);
     animation: popIn 0.5s forwards; 
 }
 
-/* 2. Shine Layer: LOW Z-Index */
+/* SHINE LAYER (Middle) */
 .member-card::after {
     content: "";
     position: absolute;
@@ -263,18 +268,17 @@ header {
     width: 100%;
     height: 100%;
     
-    /* Shine Gradient */
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    /* Subtle Shine */
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
     
     transform: skewX(-25deg);
     transition: 0.5s;
     
-    /* Puts shine strictly BEHIND text (which is layer 10) */
-    z-index: 1; 
-    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 1; /* Sits above background, below text */
+    pointer-events: none; 
 }
 
-/* 3. Text Layer: HIGH Z-Index */
+/* TEXT LAYER (Top) */
 .member-name {
     margin: 0;
     font-size: 1.2rem;
@@ -282,7 +286,7 @@ header {
     word-wrap: break-word;
     transition: color 0.2s;
     
-    /* Ensures text is top priority */
+    /* CRITICAL: Forces text to top layer */
     position: relative; 
     z-index: 10; 
 }
@@ -325,8 +329,12 @@ footer {
 @keyframes rotateIn { from { transform: rotate(-180deg) scale(0); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
 @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-/* UPDATED: Swaying Title */
-@keyframes floatTitle { 0% { transform: rotate(-3deg) translateY(0px); } 50% { transform: rotate(0deg) translateY(-15px); } 100% { transform: rotate(-3deg) translateY(0px); } }
+/* Swaying Title with Rotation */
+@keyframes floatTitle { 
+    0% { transform: rotate(-3deg) translateY(0px); } 
+    50% { transform: rotate(0deg) translateY(-15px); } 
+    100% { transform: rotate(-3deg) translateY(0px); } 
+}
 
 @keyframes glitchText { 0% { text-shadow: 4px 4px 0 #000; } 25% { text-shadow: -2px -2px 0 #ff00de, 2px 2px 0 #00ff00; } 50% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #ff00de; } 75% { text-shadow: -2px 2px 0 #ff00de, 2px -2px 0 #00ff00; } 100% { text-shadow: 4px 4px 0 #000; } }
 @keyframes typewriter { from { width: 0; opacity: 0; } to { width: 100%; opacity: 1; } }
@@ -339,6 +347,13 @@ footer {
 @keyframes popIn { 0% { opacity: 0; transform: translateY(20px) scale(0.9); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes skewEnter { from { transform: skewY(5deg); opacity: 0; } to { transform: skewY(0deg); opacity: 1; } }
 @keyframes borderCycle { 0% { border-color: #ff0000; } 20% { border-color: #ffff00; } 40% { border-color: #00ff00; } 60% { border-color: #00ffff; } 80% { border-color: #0000ff; } 100% { border-color: #ff00ff; } }
-@keyframes nameShake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
 @keyframes blurIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
 @keyframes flash { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
+
+/* UPDATED: Uses 2D translate to prevent 3D clipping issues */
+@keyframes nameShake { 
+    10%, 90% { transform: translateX(-1px); } 
+    20%, 80% { transform: translateX(2px); } 
+    30%, 50%, 70% { transform: translateX(-4px); } 
+    40%, 60% { transform: translateX(4px); } 
+}
