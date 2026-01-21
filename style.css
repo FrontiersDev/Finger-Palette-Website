@@ -272,7 +272,7 @@ header {
     animation: popIn 0.5s forwards; 
 }
 
-/* ANIMATION #15: Shine (Holographic Hover) */
+/* 2. LOWER THE SHINE LAYER */
 .member-card::after {
     content: "";
     position: absolute;
@@ -283,6 +283,9 @@ header {
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
     transform: skewX(-25deg);
     transition: 0.5s;
+    
+    /* THE FIX: Ensures the shine stays behind the text */
+    z-index: 1; 
 }
 
 .member-card:hover::after {
@@ -300,12 +303,17 @@ header {
 #palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; }
 #canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; }
 
+/* 1. FORCE TEXT TO BE ON TOP */
 .member-name {
     margin: 0;
     font-size: 1.2rem;
     text-shadow: 2px 2px 0 #000;
     word-wrap: break-word;
     transition: color 0.2s;
+    
+    /* THE FIX: These two lines lift the text above the shine */
+    position: relative; 
+    z-index: 5; 
 }
 
 /* ANIMATION #17: Name Shake (Text hover) */
