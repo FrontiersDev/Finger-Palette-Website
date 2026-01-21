@@ -334,7 +334,21 @@ footer {
 @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rotateIn { from { transform: rotate(-180deg) scale(0); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
 @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-@keyframes floatTitle { 0%, 100% { transform: rotate(-2deg) translateY(0); } 50% { transform: rotate(-2deg) translateY(-10px); } }
+/* ANIMATION UPDATE: Float + Rotation Sway */
+@keyframes floatTitle {
+    0% { 
+        /* Starts tilted left and low */
+        transform: rotate(-3deg) translateY(0px); 
+    }
+    50% { 
+        /* Floats UP and tilts slightly right (The "Light Rotation") */
+        transform: rotate(0deg) translateY(-15px); 
+    }
+    100% { 
+        /* Returns to start */
+        transform: rotate(-3deg) translateY(0px); 
+    }
+}
 @keyframes glitchText { 0% { text-shadow: 4px 4px 0 #000; } 25% { text-shadow: -2px -2px 0 #ff00de, 2px 2px 0 #00ff00; } 50% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #ff00de; } 75% { text-shadow: -2px 2px 0 #ff00de, 2px -2px 0 #00ff00; } 100% { text-shadow: 4px 4px 0 #000; } }
 @keyframes typewriter { from { width: 0; opacity: 0; } to { width: 100%; opacity: 1; } }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 201, 14, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0); } }
