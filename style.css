@@ -17,42 +17,41 @@
     --text-shadow: 4px 4px 0 #000;
 }
 
-/* LAYER 1 (Bottom): The Dark Radial Gradient */
+/* ANIMATION #20: Background Pan (Subtle movement) */
+@keyframes backgroundPan {
+    0% { background-position: 50% 50%; }
+    50% { background-position: 55% 55%; }
+    100% { background-position: 50% 50%; }
+}
+
 html {
     background: radial-gradient(circle at center, #4A6E70 0%, #2F4647 100%);
     background-attachment: fixed;
     height: 100%;
+    /* Apply Animation #20 */
+    animation: backgroundPan 20s ease-in-out infinite; 
 }
 
-/* LAYER 2 (Middle): The Background Image */
+/* LAYER 2: Background Image */
 body::before {
     content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    
-    /* UPDATED: Increased height for Parallax Room */
     height: 140vh; 
-    
     background-image: url('assets/background.avif');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    /* Transparency & Gradient */
     opacity: 0.3; 
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
     mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
-    
     pointer-events: none;
-
-    /* Parallax Variable */
     transform: translateY(var(--scroll-offset, 0px));
     will-change: transform;
 }
 
-/* LAYER 3 (Top): The Content Container */
 body {
     margin: 0;
     padding: 0;
@@ -62,11 +61,11 @@ body {
     min-height: 100vh;
     background-color: transparent !important; 
     position: relative;
-    overflow-x: hidden; /* Prevents side-scroll from slide-in animations */
+    overflow-x: hidden;
 }
 
 /* =========================================
-   2. HEADER (Animated Entry)
+   2. HEADER & LOGO
    ========================================= */
 header {
     background-color: var(--header-bg);
@@ -77,7 +76,7 @@ header {
     z-index: 100;
     backdrop-filter: blur(5px);
     
-    /* ANIMATION: Drop down from top */
+    /* ANIMATION #1: Slide Down */
     animation: slideDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
@@ -97,11 +96,13 @@ header {
     transition: transform 0.3s;
 }
 
-.logo-area:hover {
-    transform: scale(1.05) rotate(-2deg); /* Added slight tilt */
+/* ANIMATION #2: Rotate In (Logo Load) */
+.header-logo { 
+    height: 50px; 
+    width: auto; 
+    filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5)); 
+    animation: rotateIn 1s ease-out 0.5s backwards;
 }
-
-.header-logo { height: 50px; width: auto; filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5)); }
 
 .logo-text {
     font-size: 1.5rem;
@@ -110,7 +111,7 @@ header {
 }
 
 /* =========================================
-   3. BUTTONS (Wobbles & Pulses)
+   3. BUTTONS
    ========================================= */
 .gt-btn {
     text-decoration: none;
@@ -122,28 +123,28 @@ header {
     display: inline-block;
     border: none;
     cursor: pointer;
-    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.15s;
     position: relative;
 }
 
 .yellow-btn { background-color: var(--btn-yellow); box-shadow: 0 5px 0 #B88A00; }
 .beige-btn { background-color: var(--btn-beige); box-shadow: 0 5px 0 #8F8F7E; }
+.discord-btn { background-color: #5865F2; color: white; box-shadow: 0 5px 0 #3c45a5; }
 
-/* Discord Button Style */
-.discord-btn { 
-    background-color: #5865F2; 
-    color: white; 
-    box-shadow: 0 5px 0 #3c45a5; 
-}
-
-/* ANIMATION: Wobble on hover */
+/* ANIMATION #8: Wobble (Discord Hover) */
 .discord-btn:hover {
     animation: wobble 0.5s ease-in-out;
     background-color: #4752C4;
 }
 
-.gt-btn:hover {
-    transform: translateY(-3px);
+/* ANIMATION #9: Jello (Roster Button Hover) */
+.beige-btn:hover {
+    animation: jello 0.6s both;
+}
+
+/* ANIMATION #7: Pulse (Apply Button Idle) */
+.yellow-btn:not(.hidden) {
+    animation: pulse 2s infinite;
 }
 
 .gt-btn:active {
@@ -151,14 +152,8 @@ header {
     box-shadow: 0 0 0 !important;
 }
 
-/* ANIMATION: Apply Button Pulse */
-/* If the button is NOT hidden, it will pulse to grab attention */
-.yellow-btn:not(.hidden) {
-    animation: pulse 2s infinite;
-}
-
 /* =========================================
-   4. MAIN CONTENT
+   4. HERO SECTION
    ========================================= */
 .main-container {
     max-width: 1000px;
@@ -173,13 +168,20 @@ header {
     text-shadow: var(--text-shadow);
     letter-spacing: 3px;
     transform: rotate(-2deg);
-    /* Existing float animation */
+    
+    /* ANIMATION #4: Float Title (Idle) */
     animation: floatTitle 3s ease-in-out infinite;
+}
+
+/* ANIMATION #5: Glitch Text (Title Hover) */
+.page-title:hover {
+    animation: glitchText 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+    color: #FFF;
 }
 
 #status-section { 
     margin-bottom: 80px;
-    /* ANIMATION: Fade in up */
+    /* ANIMATION #3: Fade In Up */
     animation: fadeInUp 1s ease-out 0.3s backwards; 
 }
 
@@ -192,19 +194,21 @@ header {
     display: inline-block;
     padding: 10px 20px;
     border-radius: 50px;
-    transition: transform 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    
+    /* ANIMATION #6: Typewriter Effect */
+    animation: typewriter 2s steps(40, end) 1s backwards, flash 0.5s 0.8s;
 }
 
-.status-msg:hover {
-    transform: scale(1.05);
-    background: rgba(0,0,0,0.5);
-}
+/* ANIMATION #19: Flash (Status attention) */
+/* Included in the shorthand above */
 
 .big-btn { font-size: 1.8rem; padding: 20px 50px; border-radius: 12px; }
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID (Holographic Cards)
+   5. ROSTER GRID
    ========================================= */
 .tier-group { margin-bottom: 80px; }
 
@@ -218,16 +222,15 @@ header {
     gap: 15px;
 }
 
-/* ANIMATION: Slide in headers from sides */
 .palette-text { 
     color: #D18EFF; 
-    /* Slides from Left */
+    /* ANIMATION #10: Slide In Left */
     animation: slideInLeft 1s ease-out 0.5s backwards;
 }
 
 .canvas-text { 
     color: #5CC9FF; 
-    /* Slides from Right */
+    /* ANIMATION #11: Slide In Right */
     animation: slideInRight 1s ease-out 0.5s backwards;
 }
 
@@ -236,36 +239,40 @@ header {
     background: #000;
     padding: 5px 12px;
     border-radius: 8px;
-    transform: rotate(3deg);
     box-shadow: 3px 3px 0 rgba(255,255,255,0.2);
-    /* Pop in animation */
-    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s backwards;
+    transform-origin: top center;
+    
+    /* ANIMATION #12: Swing (Badge Idle) */
+    animation: swing 3s ease-in-out infinite;
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 25px;
+    
+    /* ANIMATION #14: Skew Enter (Container load) */
+    animation: skewEnter 1s ease-out backwards;
 }
 
-/* CARD STYLING & SHINE */
+/* CARD STYLING */
 .member-card {
     background-color: var(--card-bg);
-    border: 3px solid #2A3A3A;
+    border: 3px solid #37474f; /* Default border */
     border-radius: 12px;
     padding: 20px 10px;
     box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.2s;
     position: relative;
-    overflow: hidden; /* Needed for the shine effect */
+    overflow: hidden;
     
     opacity: 0;
     transform: translateY(20px);
-    /* JS handles the delay, this handles the movement */
+    /* ANIMATION #13: Pop In (Card Entry) */
     animation: popIn 0.5s forwards; 
 }
 
-/* The Shine Effect Layer */
+/* ANIMATION #15: Shine (Holographic Hover) */
 .member-card::after {
     content: "";
     position: absolute;
@@ -273,97 +280,72 @@ header {
     left: -150%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
     transform: skewX(-25deg);
     transition: 0.5s;
 }
 
-/* Hover Effects */
-.member-card:hover {
-    transform: scale(1.1) rotate(2deg) !important;
-    border-color: #FFF;
-    z-index: 10;
-}
-
 .member-card:hover::after {
-    left: 150%; /* Moves the shine across the card */
+    left: 150%; 
     transition: 0.7s;
 }
 
-#palette-list .member-card:hover {
-    box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000;
-    border-color: #D18EFF;
+.member-card:hover {
+    transform: scale(1.1) rotate(2deg) !important;
+    z-index: 10;
+    /* ANIMATION #16: Border Cycle (Rainbow Border) */
+    animation: borderCycle 2s linear infinite;
 }
 
-#canvas-list .member-card:hover {
-    box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000;
-    border-color: #5CC9FF;
-}
+#palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; }
+#canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; }
 
 .member-name {
     margin: 0;
     font-size: 1.2rem;
     text-shadow: 2px 2px 0 #000;
     word-wrap: break-word;
+    transition: color 0.2s;
+}
+
+/* ANIMATION #17: Name Shake (Text hover) */
+.member-card:hover .member-name {
+    animation: nameShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    color: #FFF;
 }
 
 /* =========================================
-   6. KEYFRAMES (The Animation Logic)
+   6. FOOTER
    ========================================= */
-
-@keyframes slideDown {
-    0% { transform: translateY(-100%); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes slideInLeft {
-    0% { transform: translateX(-50px); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes slideInRight {
-    0% { transform: translateX(50px); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes fadeInUp {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes popIn {
-    0% { opacity: 0; transform: translateY(20px) scale(0.9); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes floatTitle {
-    0% { transform: rotate(-2deg) translateY(0px); }
-    50% { transform: rotate(-2deg) translateY(-10px); }
-    100% { transform: rotate(-2deg) translateY(0px); }
-}
-
-@keyframes wobble {
-    0% { transform: translateX(0%); }
-    15% { transform: translateX(-5px) rotate(-5deg); }
-    30% { transform: translateX(4px) rotate(3deg); }
-    45% { transform: translateX(-4px) rotate(-3deg); }
-    60% { transform: translateX(2px) rotate(2deg); }
-    75% { transform: translateX(-1px) rotate(-1deg); }
-    100% { transform: translateX(0%); }
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(255, 201, 14, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0); }
-}
-
-/* Footer */
 footer {
     border-top: 4px solid rgba(0,0,0,0.2);
     background: rgba(0,0,0,0.2);
     padding: 40px;
     color: #AAA;
-    /* Fade footer in last */
-    animation: fadeInUp 1s ease-out 1.5s backwards;
+    
+    /* ANIMATION #18: Blur In */
+    animation: blurIn 1.5s ease-out 1.5s backwards;
 }
+
+/* =========================================
+   7. KEYFRAMES LIBRARY (The 20 Animations)
+   ========================================= */
+
+@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes rotateIn { from { transform: rotate(-180deg) scale(0); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
+@keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes floatTitle { 0%, 100% { transform: rotate(-2deg) translateY(0); } 50% { transform: rotate(-2deg) translateY(-10px); } }
+@keyframes glitchText { 0% { text-shadow: 4px 4px 0 #000; } 25% { text-shadow: -2px -2px 0 #ff00de, 2px 2px 0 #00ff00; } 50% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #ff00de; } 75% { text-shadow: -2px 2px 0 #ff00de, 2px -2px 0 #00ff00; } 100% { text-shadow: 4px 4px 0 #000; } }
+@keyframes typewriter { from { width: 0; opacity: 0; } to { width: 100%; opacity: 1; } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 201, 14, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0); } }
+@keyframes wobble { 0% { transform: translateX(0%); } 15% { transform: translateX(-5px) rotate(-5deg); } 30% { transform: translateX(4px) rotate(3deg); } 45% { transform: translateX(-4px) rotate(-3deg); } 60% { transform: translateX(2px) rotate(2deg); } 75% { transform: translateX(-1px) rotate(-1deg); } 100% { transform: translateX(0%); } }
+@keyframes jello { 0%, 11.1%, 100% { transform: none; } 22.2% { transform: skewX(-12.5deg) skewY(-12.5deg); } 33.3% { transform: skewX(6.25deg) skewY(6.25deg); } 44.4% { transform: skewX(-3.125deg) skewY(-3.125deg); } 55.5% { transform: skewX(1.5625deg) skewY(1.5625deg); } 66.6% { transform: skewX(-0.78125deg) skewY(-0.78125deg); } 77.7% { transform: skewX(0.390625deg) skewY(0.390625deg); } 88.8% { transform: skewX(-0.1953125deg) skewY(-0.1953125deg); } }
+@keyframes slideInLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideInRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes swing { 20% { transform: rotate(15deg); } 40% { transform: rotate(-10deg); } 60% { transform: rotate(5deg); } 80% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
+@keyframes popIn { 0% { opacity: 0; transform: translateY(20px) scale(0.9); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes skewEnter { from { transform: skewY(5deg); opacity: 0; } to { transform: skewY(0deg); opacity: 1; } }
+@keyframes borderCycle { 0% { border-color: #ff0000; } 20% { border-color: #ffff00; } 40% { border-color: #00ff00; } 60% { border-color: #00ffff; } 80% { border-color: #0000ff; } 100% { border-color: #ff00ff; } }
+@keyframes nameShake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+@keyframes blurIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
+@keyframes flash { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
