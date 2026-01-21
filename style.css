@@ -17,7 +17,7 @@
     --text-shadow: 4px 4px 0 #000;
 }
 
-/* ANIMATION #20: Background Pan (Subtle movement) */
+/* ANIMATION #20: Background Pan */
 @keyframes backgroundPan {
     0% { background-position: 50% 50%; }
     50% { background-position: 55% 55%; }
@@ -28,7 +28,6 @@ html {
     background: radial-gradient(circle at center, #4A6E70 0%, #2F4647 100%);
     background-attachment: fixed;
     height: 100%;
-    /* Apply Animation #20 */
     animation: backgroundPan 20s ease-in-out infinite; 
 }
 
@@ -75,8 +74,6 @@ header {
     top: 0;
     z-index: 100;
     backdrop-filter: blur(5px);
-    
-    /* ANIMATION #1: Slide Down */
     animation: slideDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
@@ -96,7 +93,8 @@ header {
     transition: transform 0.3s;
 }
 
-/* ANIMATION #2: Rotate In (Logo Load) */
+.logo-area:hover { transform: scale(1.05) rotate(-2deg); }
+
 .header-logo { 
     height: 50px; 
     width: auto; 
@@ -131,18 +129,15 @@ header {
 .beige-btn { background-color: var(--btn-beige); box-shadow: 0 5px 0 #8F8F7E; }
 .discord-btn { background-color: #5865F2; color: white; box-shadow: 0 5px 0 #3c45a5; }
 
-/* ANIMATION #8: Wobble (Discord Hover) */
 .discord-btn:hover {
     animation: wobble 0.5s ease-in-out;
     background-color: #4752C4;
 }
 
-/* ANIMATION #9: Jello (Roster Button Hover) */
 .beige-btn:hover {
     animation: jello 0.6s both;
 }
 
-/* ANIMATION #7: Pulse (Apply Button Idle) */
 .yellow-btn:not(.hidden) {
     animation: pulse 2s infinite;
 }
@@ -168,12 +163,9 @@ header {
     text-shadow: var(--text-shadow);
     letter-spacing: 3px;
     transform: rotate(-2deg);
-    
-    /* ANIMATION #4: Float Title (Idle) */
     animation: floatTitle 3s ease-in-out infinite;
 }
 
-/* ANIMATION #5: Glitch Text (Title Hover) */
 .page-title:hover {
     animation: glitchText 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
     color: #FFF;
@@ -181,7 +173,6 @@ header {
 
 #status-section { 
     margin-bottom: 80px;
-    /* ANIMATION #3: Fade In Up */
     animation: fadeInUp 1s ease-out 0.3s backwards; 
 }
 
@@ -196,19 +187,14 @@ header {
     border-radius: 50px;
     white-space: nowrap;
     overflow: hidden;
-    
-    /* ANIMATION #6: Typewriter Effect */
     animation: typewriter 2s steps(40, end) 1s backwards, flash 0.5s 0.8s;
 }
-
-/* ANIMATION #19: Flash (Status attention) */
-/* Included in the shorthand above */
 
 .big-btn { font-size: 1.8rem; padding: 20px 50px; border-radius: 12px; }
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID
+   5. ROSTER GRID (CRITICAL FIX AREA)
    ========================================= */
 .tier-group { margin-bottom: 80px; }
 
@@ -224,13 +210,11 @@ header {
 
 .palette-text { 
     color: #D18EFF; 
-    /* ANIMATION #10: Slide In Left */
     animation: slideInLeft 1s ease-out 0.5s backwards;
 }
 
 .canvas-text { 
     color: #5CC9FF; 
-    /* ANIMATION #11: Slide In Right */
     animation: slideInRight 1s ease-out 0.5s backwards;
 }
 
@@ -241,8 +225,6 @@ header {
     border-radius: 8px;
     box-shadow: 3px 3px 0 rgba(255,255,255,0.2);
     transform-origin: top center;
-    
-    /* ANIMATION #12: Swing (Badge Idle) */
     animation: swing 3s ease-in-out infinite;
 }
 
@@ -250,29 +232,29 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 25px;
-    
-    /* ANIMATION #14: Skew Enter (Container load) */
     animation: skewEnter 1s ease-out backwards;
 }
 
-/* CARD STYLING */
+/* --- CARD LAYERING FIX --- */
 .member-card {
     background-color: var(--card-bg);
-    border: 3px solid #37474f; /* Default border */
+    border: 3px solid #37474f;
     border-radius: 12px;
     padding: 20px 10px;
     box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
     transition: transform 0.2s;
+    
+    /* 1. Force a clean stacking context */
+    isolation: isolate;
     position: relative;
     overflow: hidden;
     
     opacity: 0;
     transform: translateY(20px);
-    /* ANIMATION #13: Pop In (Card Entry) */
     animation: popIn 0.5s forwards; 
 }
 
-/* 2. UPDATE THIS: Push the shine layer back */
+/* 2. Shine Layer: LOW Z-Index */
 .member-card::after {
     content: "";
     position: absolute;
@@ -280,30 +262,19 @@ header {
     left: -150%;
     width: 100%;
     height: 100%;
+    
+    /* Shine Gradient */
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    
     transform: skewX(-25deg);
     transition: 0.5s;
     
-    /* --- THE FIX --- */
-    z-index: 1; /* Ensures the shine stays underneath the text */
+    /* Puts shine strictly BEHIND text (which is layer 10) */
+    z-index: 1; 
+    pointer-events: none; /* Allows clicks to pass through */
 }
 
-.member-card:hover::after {
-    left: 150%; 
-    transition: 0.7s;
-}
-
-.member-card:hover {
-    transform: scale(1.1) rotate(2deg) !important;
-    z-index: 10;
-    /* ANIMATION #16: Border Cycle (Rainbow Border) */
-    animation: borderCycle 2s linear infinite;
-}
-
-#palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; }
-#canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; }
-
-/* 1. UPDATE THIS: Force the text to sit on top */
+/* 3. Text Layer: HIGH Z-Index */
 .member-name {
     margin: 0;
     font-size: 1.2rem;
@@ -311,16 +282,30 @@ header {
     word-wrap: break-word;
     transition: color 0.2s;
     
-    /* --- THE FIX --- */
-    position: relative; /* Necessary for z-index to work */
-    z-index: 10;        /* Lifts the text higher than the shine */
+    /* Ensures text is top priority */
+    position: relative; 
+    z-index: 10; 
 }
 
-/* ANIMATION #17: Name Shake (Text hover) */
+/* Hover Interactions */
+.member-card:hover {
+    transform: scale(1.1) rotate(2deg) !important;
+    z-index: 100; /* Pop whole card above others */
+    animation: borderCycle 2s linear infinite;
+}
+
+.member-card:hover::after {
+    left: 150%; 
+    transition: 0.7s;
+}
+
 .member-card:hover .member-name {
     animation: nameShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
     color: #FFF;
 }
+
+#palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; }
+#canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; }
 
 /* =========================================
    6. FOOTER
@@ -330,33 +315,19 @@ footer {
     background: rgba(0,0,0,0.2);
     padding: 40px;
     color: #AAA;
-    
-    /* ANIMATION #18: Blur In */
     animation: blurIn 1.5s ease-out 1.5s backwards;
 }
 
 /* =========================================
-   7. KEYFRAMES LIBRARY (The 20 Animations)
+   7. KEYFRAMES
    ========================================= */
-
 @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rotateIn { from { transform: rotate(-180deg) scale(0); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
 @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-/* ANIMATION UPDATE: Float + Rotation Sway */
-@keyframes floatTitle {
-    0% { 
-        /* Starts tilted left and low */
-        transform: rotate(-3deg) translateY(0px); 
-    }
-    50% { 
-        /* Floats UP and tilts slightly right (The "Light Rotation") */
-        transform: rotate(0deg) translateY(-15px); 
-    }
-    100% { 
-        /* Returns to start */
-        transform: rotate(-3deg) translateY(0px); 
-    }
-}
+
+/* UPDATED: Swaying Title */
+@keyframes floatTitle { 0% { transform: rotate(-3deg) translateY(0px); } 50% { transform: rotate(0deg) translateY(-15px); } 100% { transform: rotate(-3deg) translateY(0px); } }
+
 @keyframes glitchText { 0% { text-shadow: 4px 4px 0 #000; } 25% { text-shadow: -2px -2px 0 #ff00de, 2px 2px 0 #00ff00; } 50% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #ff00de; } 75% { text-shadow: -2px 2px 0 #ff00de, 2px -2px 0 #00ff00; } 100% { text-shadow: 4px 4px 0 #000; } }
 @keyframes typewriter { from { width: 0; opacity: 0; } to { width: 100%; opacity: 1; } }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 201, 14, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0); } }
