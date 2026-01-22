@@ -11,9 +11,9 @@
     --header-bg: rgba(16, 24, 25, 0.95);
     
     /* COLORS */
-    --owner-glow: rgba(255, 68, 68, 0.6);   /* Red */
-    --co-owner-glow: rgba(255, 159, 67, 0.6); /* Orange */
-    --staff-glow: rgba(255, 200, 0, 0.6);   /* Gold */
+    --owner-glow: rgba(255, 68, 68, 0.6);   
+    --co-owner-glow: rgba(255, 159, 67, 0.6); 
+    --staff-glow: rgba(255, 200, 0, 0.6);   
     --palette-glow: rgba(160, 32, 240, 0.6); 
     --canvas-glow: rgba(32, 160, 240, 0.6);  
     
@@ -172,7 +172,7 @@ header {
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID (SAFE MODE)
+   5. ROSTER GRID
    ========================================= */
 .tier-group { margin-bottom: 80px; }
 
@@ -187,7 +187,7 @@ header {
 }
 
 .owner-text { color: #FF6666; }
-.co-owner-text { color: #FF9F43; } /* NEW ORANGE COLOR */
+.co-owner-text { color: #FF9F43; } 
 .staff-text { color: #FFCC00; }
 .palette-text { color: #D18EFF; }
 .canvas-text { color: #5CC9FF; }
@@ -208,6 +208,21 @@ header {
     gap: 25px;
 }
 
+/* --- SPECIAL CENTERING FOR SMALL LISTS (Owners/Co-Owners) --- */
+#owner-list, #co-owner-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+/* For Flexbox items to behave like Grid items */
+#owner-list .member-card, #co-owner-list .member-card {
+    width: 200px;
+    flex: 0 0 auto; 
+}
+
+
 /* --- CARD STYLING --- */
 .member-card {
     background-color: var(--card-bg);
@@ -221,6 +236,12 @@ header {
     transform: translateY(0);
     position: relative;
     overflow: hidden;
+    
+    /* Ensure content stacks vertically (Name + Rank) */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* SHINE LAYER */
@@ -250,6 +271,21 @@ header {
     z-index: 10; 
 }
 
+/* --- NEW RANK STYLING --- */
+.member-rank {
+    font-size: 0.8rem;
+    color: #DDD;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 8px;
+    border-radius: 4px;
+    z-index: 10;
+    position: relative;
+    box-shadow: 1px 1px 0 #000;
+}
+
 /* Hover Interactions */
 .member-card:hover {
     transform: scale(1.1) rotate(2deg);
@@ -264,7 +300,7 @@ header {
 
 /* Specific Hover Colors */
 #owner-list .member-card:hover { box-shadow: 0 0 20px var(--owner-glow), 6px 6px 0 #000; border-color: #FF6666; }
-#co-owner-list .member-card:hover { box-shadow: 0 0 20px var(--co-owner-glow), 6px 6px 0 #000; border-color: #FF9F43; } /* NEW HOVER */
+#co-owner-list .member-card:hover { box-shadow: 0 0 20px var(--co-owner-glow), 6px 6px 0 #000; border-color: #FF9F43; }
 #staff-list .member-card:hover { box-shadow: 0 0 20px var(--staff-glow), 6px 6px 0 #000; border-color: #FFCC00; }
 #palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; border-color: #D18EFF; }
 #canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; border-color: #5CC9FF; }

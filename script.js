@@ -2,7 +2,7 @@
 // CONFIGURATION
 // ==========================================
 
-const APPS_OPEN = true; 
+const APPS_OPEN = false; 
 const DISCORD_INVITE = "https://discord.gg/fingerpalette"; 
 
 const MEMBERS = {
@@ -12,8 +12,22 @@ const MEMBERS = {
     // 2. CO-OWNERS
     coOwners: [ "Crew" ],
 
-    // 3. STAFF
-    staff: [ "Mod1", "Mod2", "Admin1" ],
+    // 3. STAFF (Format: {name: "Name", rank: "Rank"})
+    staff: [
+        { name: "OJTHEBDAYBOI", rank: "Head Admin" },
+        { name: "GKG", rank: "Head Moderator" },
+        { name: "Slush4goon", rank: "Head Moderator" },
+        { name: "Paulamine_vr", rank: "Admin" },
+        { name: "goodguyvr", rank: "Admin" },
+        { name: "sypt", rank: "Admin" },
+        { name: "goodguyvr4canvas", rank: "Admin" },
+        { name: "Camzzz", rank: "Moderator" },
+        { name: "trixy", rank: "Moderator" },
+        { name: "Neon!", rank: "Moderator" },
+        { name: "AwesomeGuy4Palette", rank: "Moderator" },
+        { name: "Furryboy", rank: "Trial Mod" },
+        { name: "Floridaball", rank: "Developer" }
+    ],
 
     // 4. PALETTES
     palettes: [
@@ -35,8 +49,9 @@ const MEMBERS = {
         "! Crew", "Jacknoham", "Fran", "chrisy isa pro", 
         "cosmyyeahhhhh"
     ],
-    // 5. CANVASES
+    // 5. CANVASES (Added Azriel, Tornado, Crew)
     canvases: [
+        "Azriel", "Tornado", "Crew",
         "kellen", "MIKEMAS", "Slush", "Kaidens Gaming", 
         "erikk", "Morbo", "OJ!☆l", "Xeebros", "E", 
         "Boogle", "blitz_gt", "GKG"
@@ -73,17 +88,32 @@ function renderMembers(elementId, memberList) {
     const container = document.getElementById(elementId);
     if(!container) return; 
 
-    memberList.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    // Helper to get name string for sorting
+    const getName = (item) => (typeof item === 'string' ? item : item.name);
 
-    memberList.forEach((name) => {
+    memberList.sort((a, b) => getName(a).toLowerCase().localeCompare(getName(b).toLowerCase()));
+
+    memberList.forEach((item) => {
         const card = document.createElement("div");
         card.className = "member-card";
         
+        // Determine if it's a simple string or an object with rank
+        const nameText = typeof item === 'string' ? item : item.name;
+        const rankText = typeof item === 'object' ? item.rank : null;
+
         const nameTag = document.createElement("h3");
         nameTag.className = "member-name";
-        nameTag.textContent = name;
-
+        nameTag.textContent = nameText;
         card.appendChild(nameTag);
+
+        // Render Rank if it exists
+        if (rankText) {
+            const rankTag = document.createElement("div");
+            rankTag.className = "member-rank";
+            rankTag.textContent = rankText;
+            card.appendChild(rankTag);
+        }
+
         container.appendChild(card);
     });
 }
