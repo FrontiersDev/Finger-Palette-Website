@@ -10,19 +10,18 @@
     --bg-teal: #3F5E60;       
     --header-bg: rgba(16, 24, 25, 0.95);
     
-    /* NEW COLORS */
+    /* COLORS */
     --owner-glow: rgba(255, 68, 68, 0.6);   /* Red */
+    --co-owner-glow: rgba(255, 159, 67, 0.6); /* Orange */
     --staff-glow: rgba(255, 200, 0, 0.6);   /* Gold */
-    --palette-glow: rgba(160, 32, 240, 0.6); /* Purple */
-    --canvas-glow: rgba(32, 160, 240, 0.6);  /* Blue */
+    --palette-glow: rgba(160, 32, 240, 0.6); 
+    --canvas-glow: rgba(32, 160, 240, 0.6);  
     
-    --btn-yellow: #FFC90E;
-    --btn-beige: #CDCDB4;
     --card-bg: #1A2626;
     --text-shadow: 4px 4px 0 #000;
 }
 
-/* ANIMATION #20: Background Pan */
+/* Background Pan */
 @keyframes backgroundPan {
     0% { background-position: 50% 50%; }
     50% { background-position: 55% 55%; }
@@ -36,7 +35,7 @@ html {
     animation: backgroundPan 20s ease-in-out infinite; 
 }
 
-/* LAYER 2: Background Image */
+/* Background Image */
 body::before {
     content: "";
     position: fixed;
@@ -53,7 +52,6 @@ body::before {
     mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
     pointer-events: none;
     transform: translateY(var(--scroll-offset, 0px));
-    will-change: transform;
 }
 
 body {
@@ -79,7 +77,6 @@ header {
     top: 0;
     z-index: 100;
     backdrop-filter: blur(5px);
-    animation: slideDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .header-inner {
@@ -104,7 +101,6 @@ header {
     height: 50px; 
     width: auto; 
     filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5)); 
-    animation: rotateIn 1s ease-out 0.5s backwards;
 }
 
 .logo-text {
@@ -130,27 +126,13 @@ header {
     position: relative;
 }
 
-.yellow-btn { background-color: var(--btn-yellow); box-shadow: 0 5px 0 #B88A00; }
-.beige-btn { background-color: var(--btn-beige); box-shadow: 0 5px 0 #8F8F7E; }
+.yellow-btn { background-color: #FFC90E; box-shadow: 0 5px 0 #B88A00; }
+.beige-btn { background-color: #CDCDB4; box-shadow: 0 5px 0 #8F8F7E; }
 .discord-btn { background-color: #5865F2; color: white; box-shadow: 0 5px 0 #3c45a5; }
 
-.discord-btn:hover {
-    animation: wobble 0.5s ease-in-out;
-    background-color: #4752C4;
-}
-
-.beige-btn:hover {
-    animation: jello 0.6s both;
-}
-
-.yellow-btn:not(.hidden) {
-    animation: pulse 2s infinite;
-}
-
-.gt-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 0 0 !important;
-}
+.discord-btn:hover { background-color: #4752C4; transform: translateY(-3px); }
+.beige-btn:hover { transform: translateY(-3px); }
+.gt-btn:active { transform: translateY(2px); box-shadow: 0 0 0 !important; }
 
 /* =========================================
    4. HERO SECTION
@@ -171,14 +153,8 @@ header {
     animation: floatTitle 3s ease-in-out infinite;
 }
 
-.page-title:hover {
-    animation: glitchText 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-    color: #FFF;
-}
-
 #status-section { 
     margin-bottom: 80px;
-    animation: fadeInUp 1s ease-out 0.3s backwards; 
 }
 
 .status-msg {
@@ -190,16 +166,13 @@ header {
     display: inline-block;
     padding: 10px 20px;
     border-radius: 50px;
-    white-space: nowrap;
-    overflow: hidden;
-    animation: typewriter 2s steps(40, end) 1s backwards, flash 0.5s 0.8s;
 }
 
 .big-btn { font-size: 1.8rem; padding: 20px 50px; border-radius: 12px; }
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID
+   5. ROSTER GRID (SAFE MODE)
    ========================================= */
 .tier-group { margin-bottom: 80px; }
 
@@ -213,26 +186,11 @@ header {
     gap: 15px;
 }
 
-/* NEW: Owner & Staff Text Colors */
-.owner-text {
-    color: #FF6666; /* Light Red */
-    animation: slideInLeft 1s ease-out 0.5s backwards;
-}
-
-.staff-text {
-    color: #FFCC00; /* Gold */
-    animation: slideInRight 1s ease-out 0.5s backwards;
-}
-
-.palette-text { 
-    color: #D18EFF; 
-    animation: slideInLeft 1s ease-out 0.5s backwards;
-}
-
-.canvas-text { 
-    color: #5CC9FF; 
-    animation: slideInRight 1s ease-out 0.5s backwards;
-}
+.owner-text { color: #FF6666; }
+.co-owner-text { color: #FF9F43; } /* NEW ORANGE COLOR */
+.staff-text { color: #FFCC00; }
+.palette-text { color: #D18EFF; }
+.canvas-text { color: #5CC9FF; }
 
 .tier-badge {
     font-size: 1rem;
@@ -248,7 +206,6 @@ header {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 25px;
-    animation: skewEnter 1s ease-out backwards;
 }
 
 /* --- CARD STYLING --- */
@@ -260,19 +217,10 @@ header {
     box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
     transition: transform 0.2s;
     
-    /* 1. LAYERING FIXES */
+    opacity: 1; 
+    transform: translateY(0);
     position: relative;
     overflow: hidden;
-    isolation: isolate; 
-    
-    /* 2. RENDERING FIXES */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform-style: flat;
-    
-    opacity: 0;
-    transform: translateY(20px);
-    animation: popIn 0.5s forwards; 
 }
 
 /* SHINE LAYER */
@@ -294,6 +242,7 @@ header {
 .member-name {
     margin: 0;
     font-size: 1.2rem;
+    color: white; 
     text-shadow: 2px 2px 0 #000;
     word-wrap: break-word;
     transition: color 0.2s;
@@ -303,58 +252,32 @@ header {
 
 /* Hover Interactions */
 .member-card:hover {
-    transform: scale(1.1) rotate(2deg) !important;
+    transform: scale(1.1) rotate(2deg);
     z-index: 100; 
-    animation: borderCycle 2s linear infinite;
+    border-color: #FFF;
 }
 
-.member-card:hover::after { left: 150%; transition: 0.7s; }
-
-.member-card:hover .member-name {
-    animation: nameShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-    color: #FFF;
+.member-card:hover::after {
+    left: 150%; 
+    transition: 0.7s;
 }
 
-/* NEW: Specific Hover Colors for Owners & Staff */
+/* Specific Hover Colors */
 #owner-list .member-card:hover { box-shadow: 0 0 20px var(--owner-glow), 6px 6px 0 #000; border-color: #FF6666; }
+#co-owner-list .member-card:hover { box-shadow: 0 0 20px var(--co-owner-glow), 6px 6px 0 #000; border-color: #FF9F43; } /* NEW HOVER */
 #staff-list .member-card:hover { box-shadow: 0 0 20px var(--staff-glow), 6px 6px 0 #000; border-color: #FFCC00; }
 #palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; border-color: #D18EFF; }
 #canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; border-color: #5CC9FF; }
 
 /* =========================================
-   6. FOOTER
+   6. FOOTER & ANIMATIONS
    ========================================= */
 footer {
     border-top: 4px solid rgba(0,0,0,0.2);
     background: rgba(0,0,0,0.2);
     padding: 40px;
     color: #AAA;
-    animation: blurIn 1.5s ease-out 1.5s backwards;
 }
 
-/* =========================================
-   7. KEYFRAMES
-   ========================================= */
-@keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-@keyframes rotateIn { from { transform: rotate(-180deg) scale(0); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
-@keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes floatTitle { 0% { transform: rotate(-3deg) translateY(0px); } 50% { transform: rotate(0deg) translateY(-15px); } 100% { transform: rotate(-3deg) translateY(0px); } }
-@keyframes glitchText { 0% { text-shadow: 4px 4px 0 #000; } 25% { text-shadow: -2px -2px 0 #ff00de, 2px 2px 0 #00ff00; } 50% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #ff00de; } 75% { text-shadow: -2px 2px 0 #ff00de, 2px -2px 0 #00ff00; } 100% { text-shadow: 4px 4px 0 #000; } }
-@keyframes typewriter { from { width: 0; opacity: 0; } to { width: 100%; opacity: 1; } }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 201, 14, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0); } }
-@keyframes wobble { 0% { transform: translateX(0%); } 15% { transform: translateX(-5px) rotate(-5deg); } 30% { transform: translateX(4px) rotate(3deg); } 45% { transform: translateX(-4px) rotate(-3deg); } 60% { transform: translateX(2px) rotate(2deg); } 75% { transform: translateX(-1px) rotate(-1deg); } 100% { transform: translateX(0%); } }
-@keyframes jello { 0%, 11.1%, 100% { transform: none; } 22.2% { transform: skewX(-12.5deg) skewY(-12.5deg); } 33.3% { transform: skewX(6.25deg) skewY(6.25deg); } 44.4% { transform: skewX(-3.125deg) skewY(-3.125deg); } 55.5% { transform: skewX(1.5625deg) skewY(1.5625deg); } 66.6% { transform: skewX(-0.78125deg) skewY(-0.78125deg); } 77.7% { transform: skewX(0.390625deg) skewY(0.390625deg); } 88.8% { transform: skewX(-0.1953125deg) skewY(-0.1953125deg); } }
-@keyframes slideInLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-@keyframes slideInRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes swing { 20% { transform: rotate(15deg); } 40% { transform: rotate(-10deg); } 60% { transform: rotate(5deg); } 80% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
-@keyframes popIn { 0% { opacity: 0; transform: translateY(20px) scale(0.9); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes skewEnter { from { transform: skewY(5deg); opacity: 0; } to { transform: skewY(0deg); opacity: 1; } }
-@keyframes borderCycle { 0% { border-color: #ff0000; } 20% { border-color: #ffff00; } 40% { border-color: #00ff00; } 60% { border-color: #00ffff; } 80% { border-color: #0000ff; } 100% { border-color: #ff00ff; } }
-@keyframes blurIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
-@keyframes flash { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
-@keyframes nameShake { 
-    10%, 90% { transform: translateX(-1px); } 
-    20%, 80% { transform: translateX(2px); } 
-    30%, 50%, 70% { transform: translateX(-4px); } 
-    40%, 60% { transform: translateX(4px); } 
-}

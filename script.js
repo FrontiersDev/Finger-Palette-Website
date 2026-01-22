@@ -2,25 +2,20 @@
 // CONFIGURATION
 // ==========================================
 
-// 1. APPLICATION STATUS
 const APPS_OPEN = false; 
-
-// 2. LINKS
 const DISCORD_INVITE = "https://discord.gg/fingerpalette"; 
 
-// 3. MEMBER LIST
 const MEMBERS = {
-    // NEW: OWNERS (Red)
-    owners: [
-        "YourNameHere", "PartnerName" 
-    ],
+    // 1. OWNERS
+    owners: [ "Azriel", "Tornado" ],
 
-    // NEW: STAFF TEAM (Gold)
-    staff: [
-        "Mod1", "Mod2", "Admin1"
-    ],
+    // 2. CO-OWNERS
+    coOwners: [ "Crew" ],
 
-    // TIER 1: PALETTES (Purple)
+    // 3. STAFF
+    staff: [ "Mod1", "Mod2", "Admin1" ],
+
+    // 4. PALETTES
     palettes: [
         "Tfird", "SPNCE", "SharkyPro", "Voix", "mark", "Rub", 
         "LUNARGT", "LumberVR", "Nico", "PilloVR", "Ribbonz", 
@@ -40,8 +35,7 @@ const MEMBERS = {
         "! Crew", "Jacknoham", "Fran", "chrisy isa pro", 
         "cosmyyeahhhhh"
     ],
-
-    // TIER 2: CANVASES (Blue)
+    // 5. CANVASES
     canvases: [
         "kellen", "MIKEMAS", "Slush", "Kaidens Gaming", 
         "erikk", "Morbo", "OJ!☆l", "Xeebros", "E", 
@@ -49,13 +43,10 @@ const MEMBERS = {
     ]
 };
 
-// ==========================================
-// LOGIC
-// ==========================================
-
 document.addEventListener("DOMContentLoaded", () => {
     setupStatus();
     renderMembers("owner-list", MEMBERS.owners);
+    renderMembers("co-owner-list", MEMBERS.coOwners);
     renderMembers("staff-list", MEMBERS.staff);
     renderMembers("palette-list", MEMBERS.palettes);
     renderMembers("canvas-list", MEMBERS.canvases);
@@ -69,7 +60,6 @@ function setupStatus() {
         btn.href = DISCORD_INVITE;
         btn.classList.remove("hidden");
         btn.textContent = "JOIN DISCORD TO APPLY"; 
-        
         text.textContent = "APPLICATIONS ARE OPEN!";
         text.style.color = "#FFC90E"; 
     } else {
@@ -81,15 +71,13 @@ function setupStatus() {
 
 function renderMembers(elementId, memberList) {
     const container = document.getElementById(elementId);
-    
-    // Sort names alphabetically (A-Z) automatically
+    if(!container) return; 
+
     memberList.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
-    memberList.forEach((name, index) => {
+    memberList.forEach((name) => {
         const card = document.createElement("div");
         card.className = "member-card";
-        
-        card.style.animationDelay = `${index * 50}ms`; 
         
         const nameTag = document.createElement("h3");
         nameTag.className = "member-name";
