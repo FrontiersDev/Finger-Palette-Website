@@ -2,7 +2,7 @@
 // CONFIGURATION
 // ==========================================
 
-const APPS_OPEN = false; 
+const APPS_OPEN = true; 
 const DISCORD_INVITE = "https://discord.gg/fingerpalette"; 
 
 const MEMBERS = {
