@@ -1,17 +1,26 @@
 // ==========================================
-// CONFIGURATION - EDIT THIS SECTION
+// CONFIGURATION
 // ==========================================
 
 // 1. APPLICATION STATUS
-const APPS_OPEN = false; // Set to true to open applications
+const APPS_OPEN = false; 
 
 // 2. LINKS
-// Paste your Discord Invite Link here!
 const DISCORD_INVITE = "https://discord.gg/fingerpalette"; 
 
 // 3. MEMBER LIST
 const MEMBERS = {
-    // TIER 1: PALETTES (Cyan Role + Promoted Staff)
+    // NEW: OWNERS (Red)
+    owners: [
+        "YourNameHere", "PartnerName" 
+    ],
+
+    // NEW: STAFF TEAM (Gold)
+    staff: [
+        "Mod1", "Mod2", "Admin1"
+    ],
+
+    // TIER 1: PALETTES (Purple)
     palettes: [
         "Tfird", "SPNCE", "SharkyPro", "Voix", "mark", "Rub", 
         "LUNARGT", "LumberVR", "Nico", "PilloVR", "Ribbonz", 
@@ -32,7 +41,7 @@ const MEMBERS = {
         "cosmyyeahhhhh"
     ],
 
-    // TIER 2: CANVASES (Lime Role)
+    // TIER 2: CANVASES (Blue)
     canvases: [
         "kellen", "MIKEMAS", "Slush", "Kaidens Gaming", 
         "erikk", "Morbo", "OJ!☆l", "Xeebros", "E", 
@@ -41,11 +50,13 @@ const MEMBERS = {
 };
 
 // ==========================================
-// LOGIC (Do not edit below)
+// LOGIC
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", () => {
     setupStatus();
+    renderMembers("owner-list", MEMBERS.owners);
+    renderMembers("staff-list", MEMBERS.staff);
     renderMembers("palette-list", MEMBERS.palettes);
     renderMembers("canvas-list", MEMBERS.canvases);
 });
@@ -55,7 +66,6 @@ function setupStatus() {
     const text = document.getElementById("status-text");
 
     if (APPS_OPEN) {
-        // When open, link to Discord and change text
         btn.href = DISCORD_INVITE;
         btn.classList.remove("hidden");
         btn.textContent = "JOIN DISCORD TO APPLY"; 
@@ -63,9 +73,7 @@ function setupStatus() {
         text.textContent = "APPLICATIONS ARE OPEN!";
         text.style.color = "#FFC90E"; 
     } else {
-        // When closed, hide button
         btn.classList.add("hidden");
-        
         text.textContent = "Applications are currently CLOSED. Check back on the 1st.";
         text.style.color = "#CDCDB4"; 
     }
@@ -81,8 +89,6 @@ function renderMembers(elementId, memberList) {
         const card = document.createElement("div");
         card.className = "member-card";
         
-        // This line adds the stagger effect!
-        // Each card waits 50ms longer than the last one before popping in.
         card.style.animationDelay = `${index * 50}ms`; 
         
         const nameTag = document.createElement("h3");
@@ -91,21 +97,5 @@ function renderMembers(elementId, memberList) {
 
         card.appendChild(nameTag);
         container.appendChild(card);
-    });
-
-        // ==========================================
-    // PARALLAX EFFECT LOGIC
-    // ==========================================
-    document.addEventListener("scroll", () => {
-        const scrollPosition = window.scrollY;
-        
-        // speed: 0.0 = static (fixed), 1.0 = moves with text
-        // -0.2 means it moves slightly UP as you scroll DOWN (creating depth)
-        const speed = -0.2; 
-        
-        const offset = scrollPosition * speed;
-        
-        // Send this value to the CSS variable on the body
-        document.body.style.setProperty('--scroll-offset', `${offset}px`);
     });
 }

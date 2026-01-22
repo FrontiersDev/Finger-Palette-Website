@@ -9,8 +9,13 @@
 :root {
     --bg-teal: #3F5E60;       
     --header-bg: rgba(16, 24, 25, 0.95);
-    --palette-glow: rgba(160, 32, 240, 0.6); 
-    --canvas-glow: rgba(32, 160, 240, 0.6); 
+    
+    /* NEW COLORS */
+    --owner-glow: rgba(255, 68, 68, 0.6);   /* Red */
+    --staff-glow: rgba(255, 200, 0, 0.6);   /* Gold */
+    --palette-glow: rgba(160, 32, 240, 0.6); /* Purple */
+    --canvas-glow: rgba(32, 160, 240, 0.6);  /* Blue */
+    
     --btn-yellow: #FFC90E;
     --btn-beige: #CDCDB4;
     --card-bg: #1A2626;
@@ -194,7 +199,7 @@ header {
 .hidden { display: none; }
 
 /* =========================================
-   5. ROSTER GRID (CRITICAL FIXES APPLIED)
+   5. ROSTER GRID
    ========================================= */
 .tier-group { margin-bottom: 80px; }
 
@@ -206,6 +211,17 @@ header {
     justify-content: center;
     align-items: center;
     gap: 15px;
+}
+
+/* NEW: Owner & Staff Text Colors */
+.owner-text {
+    color: #FF6666; /* Light Red */
+    animation: slideInLeft 1s ease-out 0.5s backwards;
+}
+
+.staff-text {
+    color: #FFCC00; /* Gold */
+    animation: slideInRight 1s ease-out 0.5s backwards;
 }
 
 .palette-text { 
@@ -247,9 +263,9 @@ header {
     /* 1. LAYERING FIXES */
     position: relative;
     overflow: hidden;
-    isolation: isolate; /* Creates a new stacking context */
+    isolation: isolate; 
     
-    /* 2. RENDERING FIXES (Prevents flickering/disappearing) */
+    /* 2. RENDERING FIXES */
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform-style: flat;
@@ -259,7 +275,7 @@ header {
     animation: popIn 0.5s forwards; 
 }
 
-/* SHINE LAYER (Middle) */
+/* SHINE LAYER */
 .member-card::after {
     content: "";
     position: absolute;
@@ -267,26 +283,20 @@ header {
     left: -150%;
     width: 100%;
     height: 100%;
-    
-    /* Subtle Shine */
     background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-    
     transform: skewX(-25deg);
     transition: 0.5s;
-    
-    z-index: 1; /* Sits above background, below text */
+    z-index: 1; 
     pointer-events: none; 
 }
 
-/* TEXT LAYER (Top) */
+/* TEXT LAYER */
 .member-name {
     margin: 0;
     font-size: 1.2rem;
     text-shadow: 2px 2px 0 #000;
     word-wrap: break-word;
     transition: color 0.2s;
-    
-    /* CRITICAL: Forces text to top layer */
     position: relative; 
     z-index: 10; 
 }
@@ -294,22 +304,22 @@ header {
 /* Hover Interactions */
 .member-card:hover {
     transform: scale(1.1) rotate(2deg) !important;
-    z-index: 100; /* Pop whole card above others */
+    z-index: 100; 
     animation: borderCycle 2s linear infinite;
 }
 
-.member-card:hover::after {
-    left: 150%; 
-    transition: 0.7s;
-}
+.member-card:hover::after { left: 150%; transition: 0.7s; }
 
 .member-card:hover .member-name {
     animation: nameShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
     color: #FFF;
 }
 
-#palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; }
-#canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; }
+/* NEW: Specific Hover Colors for Owners & Staff */
+#owner-list .member-card:hover { box-shadow: 0 0 20px var(--owner-glow), 6px 6px 0 #000; border-color: #FF6666; }
+#staff-list .member-card:hover { box-shadow: 0 0 20px var(--staff-glow), 6px 6px 0 #000; border-color: #FFCC00; }
+#palette-list .member-card:hover { box-shadow: 0 0 20px var(--palette-glow), 6px 6px 0 #000; border-color: #D18EFF; }
+#canvas-list .member-card:hover { box-shadow: 0 0 20px var(--canvas-glow), 6px 6px 0 #000; border-color: #5CC9FF; }
 
 /* =========================================
    6. FOOTER
@@ -328,14 +338,7 @@ footer {
 @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes rotateIn { from { transform: rotate(-180deg) scale(0); opacity: 0; } to { transform: rotate(0) scale(1); opacity: 1; } }
 @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-/* Swaying Title with Rotation */
-@keyframes floatTitle { 
-    0% { transform: rotate(-3deg) translateY(0px); } 
-    50% { transform: rotate(0deg) translateY(-15px); } 
-    100% { transform: rotate(-3deg) translateY(0px); } 
-}
-
+@keyframes floatTitle { 0% { transform: rotate(-3deg) translateY(0px); } 50% { transform: rotate(0deg) translateY(-15px); } 100% { transform: rotate(-3deg) translateY(0px); } }
 @keyframes glitchText { 0% { text-shadow: 4px 4px 0 #000; } 25% { text-shadow: -2px -2px 0 #ff00de, 2px 2px 0 #00ff00; } 50% { text-shadow: 2px -2px 0 #00ff00, -2px 2px 0 #ff00de; } 75% { text-shadow: -2px 2px 0 #ff00de, 2px -2px 0 #00ff00; } 100% { text-shadow: 4px 4px 0 #000; } }
 @keyframes typewriter { from { width: 0; opacity: 0; } to { width: 100%; opacity: 1; } }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 201, 14, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 201, 14, 0); } }
@@ -349,8 +352,6 @@ footer {
 @keyframes borderCycle { 0% { border-color: #ff0000; } 20% { border-color: #ffff00; } 40% { border-color: #00ff00; } 60% { border-color: #00ffff; } 80% { border-color: #0000ff; } 100% { border-color: #ff00ff; } }
 @keyframes blurIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
 @keyframes flash { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
-
-/* UPDATED: Uses 2D translate to prevent 3D clipping issues */
 @keyframes nameShake { 
     10%, 90% { transform: translateX(-1px); } 
     20%, 80% { transform: translateX(2px); } 
