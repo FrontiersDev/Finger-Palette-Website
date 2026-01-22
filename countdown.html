@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Countdown</title>
+    <style>
+        /* Container Styling */
+        .countdown-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: #1e1e1e; /* Dark background */
+            color: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        /* Status Text */
+        .status-label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #aaaaaa;
+            margin-bottom: 1rem;
+        }
+
+        /* The Timer Display */
+        #timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .time-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            font-weight: normal;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* "Apps Open" Message Styling */
+        .apps-open-message {
+            font-size: 3rem;
+            color: #4caf50; /* Green color for open */
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="countdown-container">
+    <div id="statusLabel" class="status-label">Next Opening In</div>
+    <div id="timer">
+        <div class="time-segment"><span id="days">00</span><span class="time-label">Days</span></div>
+        <div class="time-segment"><span id="hours">00</span><span class="time-label">Hours</span></div>
+        <div class="time-segment"><span id="minutes">00</span><span class="time-label">Mins</span></div>
+        <div class="time-segment"><span id="seconds">00</span><span class="time-label">Secs</span></div>
+    </div>
+</div>
+
+<script>
+    function getNextFirstOfMonthEST() {
+        const now = new Date();
+        let targetYear = now.getFullYear();
+        let targetMonth = now.getMonth(); // 0-11
+
+        // Start by assuming the target is the 1st of the CURRENT month
+        // We construct a date object specifically for Eastern Time
+        // Note: 15:00 EST is 3 PM.
+        // We use a string format to let the Date object handle the timezone parsing reliably across browsers
+        // Format: "Month Day, Year HH:MM:SS GMT-0500" (EST is GMT-5)
+        
+        // However, to be robust for both EST and Daylight Savings (EDT), 
+        // we can target the specific timezone string "America/New_York".
+        
+        let targetDate = new Date();
+        
+        // Loop to find the next valid 1st of the month that is in the future
+        while (true) {
+            // Create a candidate date: The 1st of 'targetMonth' at 3:00 PM
+            // We set the date components manually
+            let candidate = new Date(targetYear, targetMonth, 1, 15, 0, 0);
+            
+            // Now we need to adjust this "local" time construction to be specifically Eastern Time
+            // We use toLocaleString to check what this time looks like in New York, then calculate the offset
+            
+            // SIMPLIFIED APPROACH: 
+            // 3 PM EST is usually 20:00 UTC (Standard) or 19:00 UTC (Daylight).
+            // Let's assume standard EST (-5) as requested by "EST". 
+            // If you want it to adhere to Daylight Savings automatically, we treat it as "Eastern Time".
+            
+            // Let's just create the candidate for the 1st of the current month
+            // If that time has passed, add 1 month.
+            
+            // Construct a string for the 1st of the month at 15:00 in New York
+            // Note: Month index is 0-based in JS but 1-based in strings usually.
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const dateString = `${monthNames[targetMonth]} 1, ${targetYear} 15:00:00`;
+            
+            // Create date object forcing Eastern Time zone logic
+            // This requires a bit of a trick if we want to support all browsers perfectly without libraries like Moment.js
+            // but this works in all modern browsers:
+            let estDate = new Date(new Date(dateString).toLocaleString("en-US", {timeZone: "America/New_York"}));
+            
+            // Actually, simply treating the target as a UTC offset is safer for a raw countdown
+            // 3 PM EST = 20:00 UTC.
+            let utcDate = new Date(Date.UTC(targetYear, targetMonth, 1, 20, 0, 0));
+
+            if (utcDate > now) {
+                return utcDate;
+            }
+
+            // If the calculated date is in the past, move to next month
+            targetMonth++;
+            if (targetMonth > 11) {
+                targetMonth = 0;
+                targetYear++;
+            }
+        }
+    }
+
+    function updateCountdown() {
+        const now = new Date();
+        const target = getNextFirstOfMonthEST();
+        const diff = target - now;
+
+        const timerElement = document.getElementById("timer");
+        const labelElement = document.getElementById("statusLabel");
+
+        if (diff <= 0) {
+            // TIME IS UP
+            labelElement.style.display = "none";
+            timerElement.innerHTML = '<div class="apps-open-message">APPS OPEN</div>';
+            return;
+        }
+
+        // Calculate time parts
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        // Update DOM
+        document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+        document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+        document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+    }
+
+    // Run immediately and then every second
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>
